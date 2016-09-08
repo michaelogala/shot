@@ -15,3 +15,8 @@
 /log/*
 !/log/.keep
 /tmp
+.DS_Store
+.keep
+/public/*
+# Ignore application configuration
+/config/application.yml
