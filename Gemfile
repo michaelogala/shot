@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1', '>= 1.1.1'
+gem 'imgkit', '~> 1.6', '>= 1.6.1'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

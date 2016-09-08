@@ -1,4 +1,5 @@
-<div class="row">
+<div class="jumbotron">
+<h1 class="text-center">TurboUrl</h1>
   <div class="col-lg-8 col-lg-offset-2">
     <%= form_for :link, url: {action: 'create'} do |f| %>
       <div class="input-group input-group-lg">
@@ -9,11 +10,15 @@
       </div>
     <% end %>
   </div>
+  <p>
+    <br><br>
+  </p>
 </div>
 
+<div class="container">
 <% if !flash[:notice].blank? %>
-  <div class="alert alert-success" role="alert">
-    <%= flash[:notice] %>
+  <div class="alert alert-success text-center" role="alert">
+    <%= link_to flash[:notice], flash[:notice], class: "alert-link" %>
   </div>
 <% elsif !flash[:error].blank? %>
   <div class="alert alert-danger" role="alert">
@@ -21,14 +26,13 @@
   </div>
 <% end %>
 
-<div class="container">
   <div class="row">
   <div class="col-lg-6 col-sm-12">
     <h3 class="h3 text-center">Recent Links</h3>
-    <table class="table-responsive table-striped">
+    <table class="table table-responsive">
       <% @recent_links.each do |link| %>
         <tr>
-          <td><%= link_to link.display_slug, link.display_slug, class: "text-center" %></td>
+          <td><%= link_to link.display_slug, link.display_slug, class: "btn btn-link" %></td>
           <td><%= pluralize(link.clicks, "click") %></td>
         </tr>
       <% end %>
@@ -36,10 +40,10 @@
   </div>
   <div class="col-lg-6 col-sm-12">
     <h3 class="h3 text-center">Popular Links</h3>
-    <table class="table-responsive table-striped">
+    <table class="table table-responsive">
       <% @popular_links.each do |link| %>
         <tr>
-          <td><%= link_to link.display_slug, link.display_slug, class: "text-center" %></td>
+          <td><%= link_to link.display_slug, link.display_slug, class: "btn btn-link" %></td>
           <td><%= pluralize(link.clicks, "click") %></td>
         </tr>
       <% end %>

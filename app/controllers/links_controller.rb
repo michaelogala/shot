@@ -23,7 +23,6 @@ class LinksController < ApplicationController
 
   def show
     if params[:slug]
-      @link = Link.find_by(slug: params[:slug])
       if redirect_to @link.given_url
         @link.clicks += 1
         @link.save
