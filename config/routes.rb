@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  root 'links#index'
+  get 'links/new'
+
+  post 'links/create'
+
+  get ':slug' => 'links#show'
+
+  get 'links/destroy'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
