@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< 3d35a9521331e5e422207c29265641fb3b6fa840
-ActiveRecord::Schema.define(version: 20160908102107) do
-=======
 ActiveRecord::Schema.define(version: 20160908212711) do
->>>>>>> Add devise gem for authentication
 
   create_table "links", force: :cascade do |t|
     t.string   "given_url",              null: false
@@ -27,8 +23,6 @@ ActiveRecord::Schema.define(version: 20160908212711) do
     t.datetime "updated_at",             null: false
   end
 
-<<<<<<< 3d35a9521331e5e422207c29265641fb3b6fa840
-=======
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -47,5 +41,4 @@ ActiveRecord::Schema.define(version: 20160908212711) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
->>>>>>> Add devise gem for authentication
 end

@@ -7,6 +7,20 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <% if !flash[:notice].blank? %>
+    <div id="notice_wrapper" role="alert">
+      <p>
+        <%= flash[:notice] %>
+      </p>
+    </div>
+  <% elsif !flash[:alert].blank? %>
+    <div id="notice_wrapper" role="alert">
+      <p>
+        <%= flash[:alert] %>
+      </p>
+    </div>
+  <% end %>
+
 <nav class="navbar">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -20,28 +34,27 @@
     </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target="#sign-in-Modal" class="btn">Sign In</a></li>
-        <li><a href="#" data-toggle="modal" data-target="#sign-up-Modal" class="btn">Sign Up</a></li>
+        <% if user_signed_in? %>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-user"></span>&nbsp;
+            <%= @user.email %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Action</a></li>
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Log Out</a></li>
+            <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
           </ul>
         </li>
+        <% else %>
+          <li><a href="#" data-toggle="modal" data-target="#sign-in-Modal" class="btn">Sign In</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#sign-up-Modal" class="btn">Sign Up</a></li>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
 </nav>
   <div class="container-fluid">
-    <% if notice %>
-      <p class="notice"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert"><%= alert %></p>
-    <% end %>
     <%= yield %>
   </div>
 
@@ -57,11 +70,24 @@
         <h4 class="modal-title" id="myModalLabel">Sign in to TurboUrl</h4>
       </div>
       <div class="modal-body">
-        ...
+        <!-- Log In form -->
+
+        <%= form_for(:user, url: session_path(:user)) do |f| %>
+          <div class="form-group">
+            <%= f.label :email, class: "control-label" %><br />
+            <%= f.email_field :email, autofocus: true, class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password, class: "control-label" %><br />
+            <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+          </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Log In</button>
+        <%= f.submit "Log in", class: "btn btn-primary"%>
+      <% end %><!-- end form_for -->
       </div>
     </div>
   </div>
