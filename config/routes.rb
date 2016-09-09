@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get ':slug' => 'links#show'
 
   get 'links/destroy'
-
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
