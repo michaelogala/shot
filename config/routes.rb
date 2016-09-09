@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   root 'links#index'
-  get 'links/new'
 
   post 'links/create'
 

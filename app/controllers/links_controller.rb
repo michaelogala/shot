@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_action :set_link, only: [:show]
+  #before_action :set_link, only: [:show]
 
   def index
     @recent_links = Link.newest_first
@@ -24,10 +24,8 @@ class LinksController < ApplicationController
   def show
     if params[:slug]
       if redirect_to @link.given_url
-        @link.clicks += 1
-        @link.save
-      else
-        @link = Link.find(params[:id])
+        @link = Link.find_by(slug: params[:slug])
+        @link.update_attributes(clicks: @link.clicks + 1)
       end
     end
   end

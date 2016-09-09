@@ -1,6 +1,7 @@
 class Link < ActiveRecord::Base
   scope :newest_first, lambda { order("links.created_at DESC") }
   scope :popular, lambda { order("links.clicks DESC").limit(10) }
+  scope :find_url, lambda { select('given_url').where(slug: :slug) }
   after_create :generate_slug
 
   def generate_slug
