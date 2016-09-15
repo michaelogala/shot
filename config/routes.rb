@@ -1,12 +1,16 @@
 Rails.application.routes.draw do
+  get 'users/index'
+
+  devise_for :users
   root 'links#index'
 
   post 'links/create'
 
-  get ':slug' => 'links#show'
+  get ':slug' => 'redirects#show'
 
   get 'links/destroy'
 
+  get 'users/:id' => 'users#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
