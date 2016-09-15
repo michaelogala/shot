@@ -15,13 +15,12 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+* { border-radius: 0 !important; }
 body .navbar {
-    margin: 0;
+  margin: 0;
     .navbar-header {
         .navbar-brand,
-        .navbar-nav {
-            font-size: 28px;
-        }
+        .navbar-nav { font-size: 28px; }
     }
 }
 
@@ -31,7 +30,6 @@ body .container-fluid {
 }
 
 .container-fluid .jumbotron {
-    border-radius: 0;
     height: 30em;
     background: url('<%= asset_path('turbo-url-bg.jpg') %>') 0 0;
     h1 {
@@ -40,9 +38,7 @@ body .container-fluid {
     }
 }
 
-body .container {
-  margin-top: 50px;
-}
+body .container { margin-top: 50px; }
 
 #notice_wrapper {
   position: absolute;
