@@ -16,15 +16,6 @@
 </div>
 
 <div class="container">
-<% if !flash[:notice].blank? %>
-  <div class="alert alert-success text-center" role="alert">
-    <%= link_to flash[:notice], flash[:notice], class: "alert-link" %>
-  </div>
-<% elsif !flash[:error].blank? %>
-  <div class="alert alert-danger" role="alert">
-    <%= flash[:error] %>
-  </div>
-<% end %>
 
   <div class="row">
   <div class="col-lg-6 col-sm-12">

@@ -1,0 +1,28 @@
+<h1>Users Details</h1>
+
+<table class="table">
+<caption>My Shortened URLs</caption>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Long URL</th>
+      <th>Short URL</th>
+      <th>Created</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @user.links.each do |link| %>
+    <tr>
+      <th></th>
+      <td><%= link.given_url %></td>
+      <td><%= link.display_slug %></td>
+      <td><%= time_ago_in_words(link.created_at) %> ago</td>
+      <td><%= link.active? ? "Active" : "Deactivated" %></td>
+      <td><%= link_to "View Details", '#', class: 'btn btn-primary' %></td>
+      <td><%= link_to "Edit", '#', class: 'btn btn-primary' %></td>
+      <td><%= link_to "Delete", '#', class: 'btn btn-primary' %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
