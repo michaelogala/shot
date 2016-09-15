@@ -15,7 +15,6 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
-* { border-radius: 0 !important; }
 body .navbar {
   margin: 0;
     .navbar-header {
@@ -30,15 +29,16 @@ body .container-fluid {
 }
 
 .container-fluid .jumbotron {
-    height: 30em;
-    background: url('<%= asset_path('turbo-url-bg.jpg') %>') 0 0;
+    height: 35em;
+    background: url('<%= asset_path('mountains-feature.jpg') %>') 0 0;
+    border-radius: 0 !important;
     h1 {
         margin-top: 1.5em;
         color: white;
     }
 }
 
-body .container { margin-top: 50px; }
+body .clear_top { margin-top: 50px !important; }
 
 #notice_wrapper {
   position: absolute;
@@ -53,6 +53,19 @@ body .container { margin-top: 50px; }
     font-weight: 700;
     color: #fff;
     letter-spacing: 1px;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 }
+.btn-white {
+  background-color: white;
+  color: red;
+}
+
+.btn-transparent {
+  background: transparent;
+  color: white;
+}
+
+.text-white { color: white; }
+
+.text-lg { font-size: 1.3em; }
