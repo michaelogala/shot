@@ -19,9 +19,9 @@
       <td><%= link.display_slug %></td>
       <td><%= time_ago_in_words(link.created_at) %> ago</td>
       <td><%= link.active? ? "Active" : "Deactivated" %></td>
-      <td><%= link_to "View Details", '#', class: 'btn btn-primary' %></td>
-      <td><%= link_to "Edit", '#', class: 'btn btn-primary' %></td>
-      <td><%= link_to "Delete", '#', class: 'btn btn-primary' %></td>
+      <td><%= link_to "<span class='glyphicon glyphicon-book'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'View Details' %></td>
+      <td><%= link_to "<span class='glyphicon glyphicon-edit'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Edit' %></td>
+      <td><%= link_to "<span class='glyphicon glyphicon-trash'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Delete' %></td>
     </tr>
   <% end %>
   </tbody>

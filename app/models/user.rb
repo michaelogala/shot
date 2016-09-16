@@ -4,4 +4,5 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  scope :top_users, lambda { order('users.link_count DESC').limit(10) }
 end

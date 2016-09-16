@@ -14,6 +14,8 @@ gem 'devise', '~> 4.2'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'imgkit', '~> 1.6', '>= 1.6.1'
+gem 'mechanize'
+gem 'sidekiq'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

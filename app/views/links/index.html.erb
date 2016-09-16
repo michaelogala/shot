@@ -3,7 +3,7 @@
   <div class="col-lg-8 col-lg-offset-2">
     <%= form_for :link, url: {action: 'create'} do |f| %>
       <div class="input-group input-group-lg">
-        <%= f.text_field :given_url, class: "form-control", placeholder: "Paste that ugly long url" %>
+        <%= f.url_field :given_url, class: "form-control", placeholder: "Paste that ugly long url..." %>
         <span class="input-group-btn">
           <%= f.submit "Shorten", class: "btn btn-danger" %>
         </span>
@@ -17,20 +17,33 @@
 
 <div class="container clear_top">
 
+  <% unless flash[:link].blank? %>
+    <p class="alert alert-success text-center lead"> <%= link_to flash[:link], flash[:link] %></p>
+  <% end %>
+
   <div class="row">
   <div class="col-lg-4 col-sm-12">
-    <h3 class="h3 text-center">Recent Links</h3>
+    <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;Recent Links</strong></h4>
     <table class="table table-responsive table-bordered">
       <% @recent_links.each do |link| %>
         <tr>
-          <td><%= link_to link.display_slug, link.display_slug, class: "btn btn-link" %></td>
-          <td><%= pluralize(link.clicks, "hit") %></td>
+          <td>
+            <div class="col-lg-2">
+              <span class="glyphicon glyphicon-globe text-larger text-primary clear_top_20"></span>
+            </div>
+            <div class="col-lg-10">
+              <div>Page Title: <%= truncate(link.title, length: 20, omission: '...') || "Not Found" %></div>
+              <%= link_to link.display_slug, link.display_slug, class: "btn-link" %><br>
+              <small class="small">Created <%= time_ago_in_words(link.created_at) %></small>
+              <small class="small pull-right"><span class="badge"><%= pluralize(link.clicks, "hit") %></span></small>
+            </div>
+          </td>
         </tr>
       <% end %>
     </table>
   </div>
   <div class="col-lg-4 col-sm-12">
-    <h3 class="h3 text-center">Influential Users</h3>
+    <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Influential Users</strong></h4>
     <table class="table table-responsive table-bordered">
       <% @influential_users.each do |user| %>
         <tr>
@@ -49,14 +62,21 @@
     </table>
   </div>
   <div class="col-lg-4 col-sm-12">
-    <h3 class="h3 text-center">Popular Links</h3>
+    <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Popular Links</strong></h4>
     <table class="table table-responsive table-bordered">
       <% @popular_links.each do |link| %>
         <tr>
           <td>
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;&nbsp;
-            <%= link_to link.display_slug, link.display_slug, class: "btn btn-link" %></td>
-          <td><%= pluralize(link.clicks, "hit") %></td>
+            <div class="col-lg-2">
+              <span class="glyphicon glyphicon-star text-larger text-danger clear_top_20"></span>
+            </div>
+            <div class="col-lg-10">
+              <div>Page Title: <%= truncate(link.title, length: 20, omission: '...') || "Not Found" %></div>
+              <%= link_to link.display_slug, link.display_slug, class: "btn-link" %><br>
+              <small class="small">Created <%= time_ago_in_words(link.created_at) %></small>
+              <small class="small pull-right"><span class="badge"><%= pluralize(link.clicks, "hit") %></span></small>
+            </div>
+            </td>
         </tr>
       <% end %>
     </table>

@@ -15,6 +15,8 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+body { font-family: 'Roboto', sans-serif }
+
 body .navbar {
   margin: 0;
     .navbar-header {
@@ -38,7 +40,7 @@ body .container-fluid {
     }
 }
 
-body .clear_top { margin-top: 50px !important; }
+.clear_top { margin-top: 50px !important; }
 
 #notice_wrapper {
   position: absolute;
@@ -56,16 +58,26 @@ body .clear_top { margin-top: 50px !important; }
     font-size: 1.5rem;
   }
 }
+
 .btn-white {
   background-color: white;
   color: red;
 }
 
 .btn-transparent {
-  background: transparent;
+  background: none;
+  border: 1px solid white;
   color: white;
 }
 
 .text-white { color: white; }
 
+.text-brown { color: #771414; }
+
 .text-lg { font-size: 1.3em; }
+
+.text-larger { font-size: 2em; }
+
+.clear_top_20 { margin-top: 20px; }
+
+.badge { background-color: green !important; }

@@ -6,18 +6,19 @@ class LinksController < ApplicationController
   def index
     @recent_links = Link.newest_first
     @popular_links = Link.popular
-    @influential_users = User.all
+    @influential_users = User.top_users
     @new_link = Link.new
   end
 
   def create
     @link = Link.new(link_params)
     if current_user
-      current_user.links << @link
-      flash[:notice] = "#{@link.display_slug}"
+      update_current_user(@link)
+      flash[:link] = "#{@link.display_slug}"
+      flash[:notice] = "Link successfully created"
       redirect_to action: 'index'
     elsif @link.save
-      flash[:notice] = "#{@link.display_slug}"
+      flash[:link] = "#{@link.display_slug}"
       redirect_to action: 'index'
     else
       redirect_to action: 'index'
@@ -57,5 +58,11 @@ class LinksController < ApplicationController
 
     def find_link
       @link = Link.find(params[:id])
+    end
+
+    def update_current_user(link)
+      current_user.links << link
+      current_user.link_count += 1
+      current_user.save
     end
 end

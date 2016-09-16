@@ -23,4 +23,6 @@ $(document).ready(function() {
       $(this).remove();
     });
   }, 4500);
+
+  $('[data-toggle = "tooltip"]').tooltip();
 });
