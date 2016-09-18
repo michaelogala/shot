@@ -5,6 +5,7 @@ class CreateVisits < ActiveRecord::Migration
       t.string :ip_address
       t.string :browser_name
       t.string :browser_version
+      t.string :device
       t.string :os
       t.string :referer
 

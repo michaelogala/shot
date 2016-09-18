@@ -53,5 +53,37 @@
         <% end %>
       </tbody>
     </table>
+
+    <!-- visit details -->
+    <% unless @link.nil? %>
+    <div id="visit-details">
+      <table class="table table-responsive table-stripped">
+        <thead>
+          <tr>
+            <th>IP ADDRESS</th>
+            <th>REFERER</th>
+            <th>BROWSER NAME</th>
+            <th>BROWSER VERSION</th>
+            <th>CLIENT DEVICE</th>
+            <th>CLIENT OS</th>
+            <th>TIME OF VISIT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @link.visits.each do |visit| %>
+            <tr>
+              <td><%= visit.ip_address %></td>
+              <td><%= visit.referer %></td>
+              <td><%= visit.browser_name %></td>
+              <td><%= visit.browser_version %></td>
+              <td><%= visit.device %></td>
+              <td><%= visit.os %></td>
+              <td><%= visit.created_at %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <% end %>
   </div>
 </div>
