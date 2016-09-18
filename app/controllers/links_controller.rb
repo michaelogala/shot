@@ -1,5 +1,4 @@
 class LinksController < ApplicationController
-  #before_action :set_link, only: [:show]
   before_action :find_link, only: [:show, :edit, :destroy]
   before_action :authenticate_user!, only: [:edit, :update, :show, :destroy]
 
@@ -21,7 +20,7 @@ class LinksController < ApplicationController
       flash[:link] = "#{@link.display_slug}"
       redirect_to action: 'index'
     else
-      redirect_to action: 'index'
+      render 'index'
       flash[:error] = 'Something went wrong'
     end
   end
@@ -33,14 +32,13 @@ class LinksController < ApplicationController
   end
 
   def show
-    @link = Link.find(params[:id])
   end
 
   def destroy
     @link.destroy
     flash[:notice] = Message.link_deleted
     if current_user
-      redirect_to 'users/index'
+      redirect_to 'users/dashboard'
     else
       redirect_to root_path
     end
@@ -49,7 +47,7 @@ class LinksController < ApplicationController
 
   private
     def link_params
-      params.require(:link).permit(:given_url)
+      params.require(:link).permit(:given_url, :slug)
     end
 
     def set_link

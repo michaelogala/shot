@@ -1,28 +1,57 @@
-<h1>Users Details</h1>
-
-<table class="table">
-<caption>My Shortened URLs</caption>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Long URL</th>
-      <th>Short URL</th>
-      <th>Created</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @user.links.each do |link| %>
-    <tr>
-      <th></th>
-      <td><%= link.given_url %></td>
-      <td><%= link.display_slug %></td>
-      <td><%= time_ago_in_words(link.created_at) %> ago</td>
-      <td><%= link.active? ? "Active" : "Deactivated" %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-book'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'View Details' %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-edit'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Edit' %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-trash'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Delete' %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-lg-4 bg-f2">
+    <table class="table table-responsive">
+      <tr class="page-title mild-padding">
+        <td><%= pluralize(current_user.links.size, "Turbolink") %></td>
+        <td class="text-right">Clicks all time</td>
+      </tr>
+    </table>
+    <div class="list-group">
+      <% current_user.links.each do |link| %>
+        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
+          <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') %></h4>
+          <p class="list-group-item-text">
+            <small class="text-orange"><%= link.display_slug %></small>
+            <small class="pull-right"><%= link.clicks %>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
+          </p>
+        </a>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <table class="table table-responsive">
+      <tbody>
+      <% if @link %>
+        <tr>
+          <td>
+            <div class="lead clear_top_20">
+              <%= @link.title %><br>
+              <h5 class="light-grey"><%= @link.given_url %></h5>
+            </div>
+            <div class="text-orange"><%= @link.display_slug %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>Created: &nbsp;&nbsp;<%= time_ago_in_words(@link.created_at) %> ago</td>
+        </tr>
+        <tr>
+          <td>
+            Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
+            &nbsp;&nbsp;
+            <%= link_to "Deactivate", "#", class: 'btn btn-orange-outline ' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-left">
+            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'View Details', class: 'btn btn-orange-outline'%>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Edit', class: 'btn btn-orange-outline' %>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Delete', class: 'btn btn-orange-outline', method: :delete, data: {confirm: "Sure to delete?"} %>
+          </td>
+        </tr>
+        <% else %>
+        <div class="lead">Click a link on the left hand side to display the details</div>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

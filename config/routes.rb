@@ -2,13 +2,12 @@ Rails.application.routes.draw do
   get 'users/index'
 
   devise_for :users
+  resources :links
   root 'links#index'
 
   post 'links/create'
 
   get ':slug' => 'redirects#show'
-
-  get 'links/destroy'
 
   get 'users/dashboard' => 'users#show'
 
