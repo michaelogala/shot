@@ -1,5 +1,5 @@
 class LinksController < ApplicationController
-  before_action :find_link, only: [:show, :edit, :destroy]
+  before_action :find_link, only: [:show, :update, :destroy]
   before_action :authenticate_user!, only: [:edit, :update, :show, :destroy]
 
   def index
@@ -15,7 +15,7 @@ class LinksController < ApplicationController
       update_current_user(@link)
       flash[:link] = "#{@link.display_slug}"
       flash[:notice] = "Link successfully created"
-      redirect_to action: 'index'
+      redirect_to :back
     elsif @link.save
       flash[:link] = "#{@link.display_slug}"
       redirect_to action: 'index'
@@ -29,6 +29,8 @@ class LinksController < ApplicationController
   end
 
   def update
+    @link.update(link_params)
+    redirect_to 'users/dashboard'
   end
 
   def show
@@ -47,7 +49,7 @@ class LinksController < ApplicationController
 
   private
     def link_params
-      params.require(:link).permit(:given_url, :slug)
+      params.require(:link).permit(:given_url, :slug, :active)
     end
 
     def set_link

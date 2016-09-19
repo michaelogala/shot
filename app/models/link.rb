@@ -17,6 +17,6 @@ class Link < ActiveRecord::Base
   end
 
   def display_slug
-    "http://localhost:3001/" + self.slug
+    ENV['BASE_URL'] + self.slug
   end
 end

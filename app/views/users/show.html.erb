@@ -1,12 +1,10 @@
 <div class="row">
   <div class="col-lg-4 bg-f2">
-    <table class="table table-responsive">
-      <tr class="page-title mild-padding">
-        <td><%= pluralize(current_user.links.size, "Turbolink") %></td>
-        <td class="text-right">Clicks all time</td>
-      </tr>
-    </table>
     <div class="list-group">
+      <div class="list-group-item mild-padding" style="overflow: hidden">
+        <span class="pull-left">&nbsp;&nbsp;<%= pluralize(current_user.links.size, "Turbolink") %></span>
+        <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
+      </div>
       <% current_user.links.each do |link| %>
         <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
           <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') %></h4>
@@ -28,7 +26,15 @@
               <%= @link.title %><br>
               <h5 class="light-grey"><%= @link.given_url %></h5>
             </div>
-            <div class="text-orange"><%= @link.display_slug %></div>
+            <div>
+              <span id="copy_target" class="text-orange"><%= @link.display_slug %></span>
+              &nbsp;&nbsp;
+              <button id="btn_copy" data-clipboard-target="#copy_target" class="btn btn-xs btn-orange-outline">Copy</button>
+              &nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', class: 'btn btn-orange-outline btn-xs', data: {toggle: "modal", target: '#edit-link'} %>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :delete, data: {confirm: "Sure to delete?"} %>
+            </div>
           </td>
         </tr>
         <tr>
@@ -38,14 +44,11 @@
           <td>
             Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
             &nbsp;&nbsp;
-            <%= link_to "Deactivate", "#", class: 'btn btn-orange-outline ' %>
-          </td>
-        </tr>
-        <tr>
-          <td class="text-left">
-            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'View Details', class: 'btn btn-orange-outline'%>&nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Edit', class: 'btn btn-orange-outline' %>&nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Delete', class: 'btn btn-orange-outline', method: :delete, data: {confirm: "Sure to delete?"} %>
+            <% if @link.active? %>
+              <%= link_to "Deactivate", {controller: :links, action: :update, id: @link.id, active: 'false'}, class: 'btn btn-orange-outline btn-xs', method: :update %>
+            <% else %>
+              <%= link_to "Activate", {controller: :links, action: :update, active: 'true'}, class: 'btn btn-orange-outline btn-xs' %>
+            <% end %>
           </td>
         </tr>
         <% else %>
@@ -56,15 +59,13 @@
 
     <!-- visit details -->
     <% unless @link.nil? %>
-    <div id="visit-details">
-      <table class="table table-responsive table-stripped">
+    <div id="visit-details" class="collapse">
+      <table class="table table-responsive table-striped table-bordered">
         <thead>
-          <tr>
+          <tr class="bg-light-blue text-white">
             <th>IP ADDRESS</th>
             <th>REFERER</th>
             <th>BROWSER NAME</th>
-            <th>BROWSER VERSION</th>
-            <th>CLIENT DEVICE</th>
             <th>CLIENT OS</th>
             <th>TIME OF VISIT</th>
           </tr>
@@ -75,10 +76,8 @@
               <td><%= visit.ip_address %></td>
               <td><%= visit.referer %></td>
               <td><%= visit.browser_name %></td>
-              <td><%= visit.browser_version %></td>
-              <td><%= visit.device %></td>
               <td><%= visit.os %></td>
-              <td><%= visit.created_at %></td>
+              <td><%= time_ago_in_words visit.created_at %></td>
             </tr>
           <% end %>
         </tbody>
@@ -87,3 +86,5 @@
     <% end %>
   </div>
 </div>
+
+<%= render 'edit_link_dialog' %>
