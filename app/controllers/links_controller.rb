@@ -12,8 +12,7 @@ class LinksController < ApplicationController
 
   def create
     @link = Link.new(link_params)
-    @link.slug = @link.slug.gsub(' ', '-')
-    @link.user_id = current_user.id
+    @link.user_id = current_user.id if current_user
     if @link.save
       flash[:link] = "#{@link.display_slug}"
       flash[:notice] = "Link successfully created"
@@ -28,20 +27,23 @@ class LinksController < ApplicationController
   end
 
   def update
-    if @link.update(link_params)
+    params = link_params
+    params[:slug] = params[:slug].gsub(' ', '-')
+    if @link.update(params)
+      flash[:notice] = Message.link_updated
       redirect_to '/dashboard'
     end
   end
 
   def activate
     @link.update_attributes(active: true)
-    flash[:notice] = Message.activated_link
+    flash[:notice] = Message.link_activated
       redirect_to '/dashboard'
   end
 
   def deactivate
     if @link.update_attributes(active: false)
-      flash[:notice] = Message.deactivated_link
+      flash[:notice] = Message.link_deactivated
       redirect_to '/dashboard'
     end
   end
@@ -56,6 +58,7 @@ class LinksController < ApplicationController
   end
 
   private
+
     def link_params
       params.require(:link).permit(:given_url, :slug, :active, :id)
     end

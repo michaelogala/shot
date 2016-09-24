@@ -15,11 +15,15 @@ class Message
     'This link doesn\'t exist'
   end
 
-  def activated_link
+  def self.link_activated
     'Link has been reactivated'
   end
 
-  def deactivated_link
+  def self.link_deactivated
     'Link has been deactivated'
+  end
+
+  def self.link_updated
+    'Link has been updated'
   end
 end
