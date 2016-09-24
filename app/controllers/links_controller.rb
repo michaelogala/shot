@@ -1,6 +1,7 @@
 class LinksController < ApplicationController
   before_action :find_link, only: [:show, :update, :destroy, :activate, :deactivate]
   before_action :authenticate_user!, only: [:edit, :update, :show, :destroy]
+  before_action :normalize_params, only: [:update]
 
   def index
     redirect_to '/dashboard' if current_user
@@ -13,13 +14,18 @@ class LinksController < ApplicationController
   def create
     @link = Link.new(link_params)
     @link.user_id = current_user.id if current_user
-    if @link.save
-      flash[:link] = "#{@link.display_slug}"
-      flash[:notice] = "Link successfully created"
-      redirect_to :back
+    if !find_link_by_url(@link)
+      if @link.save
+        flash[:link] = Message.display_link(@link)
+        flash[:notice] = Message.new_link_success
+        redirect_to :back
+      else
+        render 'index'
+        flash[:error] = Message.new_link_error
+      end
     else
-      render 'index'
-      flash[:error] = 'Something went wrong'
+      flash[:link] = Message.display_link(find_link_by_url(@link))
+      redirect_to :back
     end
   end
 
@@ -27,9 +33,7 @@ class LinksController < ApplicationController
   end
 
   def update
-    params = link_params
-    params[:slug] = params[:slug].gsub(' ', '-')
-    if @link.update(params)
+    if @link.update(normalize_params)
       flash[:notice] = Message.link_updated
       redirect_to '/dashboard'
     end
@@ -38,7 +42,7 @@ class LinksController < ApplicationController
   def activate
     @link.update_attributes(active: true)
     flash[:notice] = Message.link_activated
-      redirect_to '/dashboard'
+    redirect_to '/dashboard'
   end
 
   def deactivate
@@ -71,9 +75,19 @@ class LinksController < ApplicationController
       @link = Link.find(params[:id])
     end
 
+    def find_link_by_url(link)
+      @link = Link.find_by(given_url: link.given_url)
+    end
+
     def update_current_user(link)
       current_user.links << link
       current_user.link_count += 1
       current_user.save
+    end
+
+    def normalize_params
+      params = link_params
+      params[:slug] = params[:slug].gsub(' ', '-')
+      params
     end
 end

@@ -7,6 +7,10 @@ class Message
     'Something went wrong. The link couldn\'t be created'
   end
 
+  def self.display_link(link)
+    "#{link.display_slug}"
+  end
+
   def self.link_deleted
     'Link has been deleted'
   end
