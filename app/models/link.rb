@@ -17,6 +17,6 @@ class Link < ActiveRecord::Base
   end
 
   def display_slug
-    ENV['BASE_URL'] + self.slug
+   ENV['BASE_URL'] + self.slug
   end
 end

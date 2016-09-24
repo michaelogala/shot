@@ -6,7 +6,7 @@
         <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
       </div>
       <% current_user.links.each do |link| %>
-        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
+        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/dashboard?link_id=<%= link.id %>">
           <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') %></h4>
           <p class="list-group-item-text">
             <small class="text-orange"><%= link.display_slug %></small>
@@ -33,7 +33,7 @@
               &nbsp;&nbsp;
             <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>&nbsp;&nbsp;
             <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', class: 'btn btn-orange-outline btn-xs', data: {toggle: "modal", target: '#edit-link'} %>&nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :delete, data: {confirm: "Sure to delete?"} %>
+            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :destroy, data: {confirm: "Sure to delete?"} %>
             </div>
           </td>
         </tr>
@@ -45,9 +45,9 @@
             Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
             &nbsp;&nbsp;
             <% if @link.active? %>
-              <%= link_to "Deactivate", {controller: :links, action: :update, id: @link.id, active: 'false'}, class: 'btn btn-orange-outline btn-xs', method: :update %>
+              <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :deactivate %>
             <% else %>
-              <%= link_to "Activate", {controller: :links, action: :update, active: 'true'}, class: 'btn btn-orange-outline btn-xs' %>
+              <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :activate %>
             <% end %>
           </td>
         </tr>
@@ -58,32 +58,7 @@
     </table>
 
     <!-- visit details -->
-    <% unless @link.nil? %>
-    <div id="visit-details" class="collapse">
-      <table class="table table-responsive table-striped table-bordered">
-        <thead>
-          <tr class="bg-light-blue text-white">
-            <th>IP ADDRESS</th>
-            <th>REFERER</th>
-            <th>BROWSER NAME</th>
-            <th>CLIENT OS</th>
-            <th>TIME OF VISIT</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @link.visits.each do |visit| %>
-            <tr>
-              <td><%= visit.ip_address %></td>
-              <td><%= visit.referer %></td>
-              <td><%= visit.browser_name %></td>
-              <td><%= visit.os %></td>
-              <td><%= time_ago_in_words visit.created_at %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-    <% end %>
+    <%= render 'visit_details' %>
   </div>
 </div>
 

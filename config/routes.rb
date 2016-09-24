@@ -1,17 +1,21 @@
 Rails.application.routes.draw do
-  get 'users/index'
-
-  devise_for :users
-  resources :links
   root 'links#index'
+  devise_for :users
 
-  post 'links/create'
+  scope controller: :links do
+    get '/'                               => :index
+    post '/dashboard/link/new'            => :create
+    post '/dashboard/link/update/:id'     => :update
+    post '/dashboard/link/:id'            => :destroy
+    post '/dashboard/link/activate/:id'   => :activate
+    post '/dashboard/link/deactivate/:id' => :deactivate
+  end
 
-  post 'links/update'
+  scope controller: :users do
+    get '/dashboard'  => :show
+  end
 
-  get ':slug' => 'redirects#show'
-
-  get 'users/dashboard' => 'users#show'
-
-
+  scope controller: :redirects do
+    get '/:slug' => :show
+  end
 end
