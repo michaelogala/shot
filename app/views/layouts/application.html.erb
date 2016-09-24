@@ -8,54 +8,10 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Roboto:300,400,700" rel="stylesheet">
 </head>
 <body>
-  <% if !flash[:notice].blank? %>
-    <div id="notice_wrapper" role="alert">
-      <p>
-        <%= flash[:notice] %>
-      </p>
-    </div>
-  <% elsif !flash[:alert].blank? %>
-    <div id="notice_wrapper" role="alert">
-      <p>
-        <%= flash[:alert] %>
-      </p>
-    </div>
-  <% end %>
 
+<%= render 'layouts/flash' %>
 
-<nav class="navbar navbar-fixed-top">
-  <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <%= link_to "TurboUrl", root_path, class: "navbar-brand text-white" %>
-      </div>
-
-        <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle text-white text-lg" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-user"></span>&nbsp;
-              <%= current_user.first_name %> <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Dashboard", users_dashboard_path %></li>
-              <li role="separator" class="divider"></li>
-              <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
-            </ul>
-          </li>
-          <% else %>
-            <li><a href="#" data-toggle="modal" data-target="#sign-in-Modal" class="btn text-white">Sign In</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#sign-up-Modal" class="btn btn-transparent">Sign Up</a></li>
-          <% end %>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div>
-</nav>
+<%= render 'layouts/navbar' %>
 
   <div class="container-fluid">
     <%= yield %>
@@ -135,13 +91,14 @@
             <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
           </div>
 
-
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <%= f.submit "Sign up", class: "btn btn-primary" %>
         <% end %><!-- end sign up form -->
       </div>
+
     </div>
   </div>
 </div>

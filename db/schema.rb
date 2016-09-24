@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160915235627) do
     t.string   "ip_address"
     t.string   "browser_name"
     t.string   "browser_version"
+    t.string   "device"
     t.string   "os"
     t.string   "referer"
     t.datetime "created_at",      null: false

@@ -1,28 +1,65 @@
-<h1>Users Details</h1>
+<div class="row">
+  <div class="col-lg-4 bg-f2">
+    <div class="list-group">
+      <div class="list-group-item mild-padding" style="overflow: hidden">
+        <span class="pull-left">&nbsp;&nbsp;<%= pluralize(current_user.links.size, "Turbolink") %></span>
+        <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
+      </div>
+      <% current_user.links.each do |link| %>
+        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/dashboard?link_id=<%= link.id %>">
+          <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') %></h4>
+          <p class="list-group-item-text">
+            <small class="text-orange"><%= link.display_slug %></small>
+            <small class="pull-right"><%= link.clicks %>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
+          </p>
+        </a>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-lg-8">
+    <table class="table table-responsive">
+      <tbody>
+      <% if @link %>
+        <tr>
+          <td>
+            <div class="lead clear_top_20">
+              <%= @link.title %><br>
+              <h5 class="light-grey"><%= @link.given_url %></h5>
+            </div>
+            <div>
+              <span id="copy_target" class="text-orange"><%= @link.display_slug %></span>
+              &nbsp;&nbsp;
+              <button id="btn_copy" data-clipboard-target="#copy_target" class="btn btn-xs btn-orange-outline">Copy</button>
+              &nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', class: 'btn btn-orange-outline btn-xs', data: {toggle: "modal", target: '#edit-link'} %>&nbsp;&nbsp;
+            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :destroy, data: {confirm: "Sure to delete?"} %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Created: &nbsp;&nbsp;<%= time_ago_in_words(@link.created_at) %> ago</td>
+        </tr>
+        <tr>
+          <td>
+            Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
+            &nbsp;&nbsp;
+            <% if @link.active? %>
+              <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :deactivate %>
+            <% else %>
+              <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :activate %>
+            <% end %>
+          </td>
+        </tr>
+        <% else %>
+        <div class="lead">Click a link on the left hand side to display the details</div>
+        <% end %>
+      </tbody>
+    </table>
 
-<table class="table">
-<caption>My Shortened URLs</caption>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Long URL</th>
-      <th>Short URL</th>
-      <th>Created</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @user.links.each do |link| %>
-    <tr>
-      <th></th>
-      <td><%= link.given_url %></td>
-      <td><%= link.display_slug %></td>
-      <td><%= time_ago_in_words(link.created_at) %> ago</td>
-      <td><%= link.active? ? "Active" : "Deactivated" %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-book'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'View Details' %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-edit'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Edit' %></td>
-      <td><%= link_to "<span class='glyphicon glyphicon-trash'></span>".html_safe, '#', "data-toggle" => 'tooltip', "data-placement" => 'top', title: 'Delete' %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+    <!-- visit details -->
+    <%= render 'visit_details' %>
+  </div>
+</div>
+
+<%= render 'edit_link_dialog' %>

@@ -16,6 +16,7 @@ gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'imgkit', '~> 1.6', '>= 1.6.1'
 gem 'mechanize'
 gem 'sidekiq'
+gem "browser"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -28,6 +29,7 @@ gem 'sidekiq'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'rspec-rails', '~> 3.5'
 end
 
 group :development do

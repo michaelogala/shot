@@ -12,13 +12,29 @@
  *
  *= require_self
 */
-
+@import url(http://fonts.googleapis.com/css?family=Lora|Ubuntu:300,400,500);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400|Roboto:300,400,700);
 @import "bootstrap-sprockets";
 @import "bootstrap";
-body { font-family: 'Roboto', sans-serif }
+
+body {
+    background-color: #f2f2f2;
+    font-family: 'Robot Condensed', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 300;
+}
 
 body .navbar {
   margin: 0;
+  font-family: 'Ubuntu', sans-serif;
     .navbar-header {
         .navbar-brand,
         .navbar-nav { font-size: 28px; }
@@ -30,7 +46,7 @@ body .container-fluid {
     padding: 0;
 }
 
-.container-fluid .jumbotron {
+.container-fluid .home-jumbotron {
     height: 35em;
     background: url('<%= asset_path('mountains-feature.jpg') %>') 0 0;
     border-radius: 0 !important;
@@ -40,14 +56,21 @@ body .container-fluid {
     }
 }
 
+.dashboard-jumbotron {
+  height: 25em;
+  border-radius: 0 !important;
+}
+
 .clear_top { margin-top: 50px !important; }
 
-#notice_wrapper {
+#notice_wrapper, #copy_alert {
   position: absolute;
-  top: 0;
-  background-color: rgba(135,216,211,0.85);
-  z-index: 999;
-  width: 100%;
+  bottom: 20px;
+  left: 10px;
+  background-color: rgba(0,0,0,.9);
+  z-index: 9999;
+  width: 300px;
+  border-radius: 8px;
   p {
     padding: 2.5rem 0;
     text-align: center;
@@ -78,6 +101,42 @@ body .container-fluid {
 
 .text-larger { font-size: 2em; }
 
+.text-orange { color: #ee6123; }
+
 .clear_top_20 { margin-top: 20px; }
 
 .badge { background-color: green !important; }
+
+.bg-dark-blue { background-color: #0e3042; }
+
+.bg-light-blue { background-color: #0e3745 }
+
+.bg-f2 { background-color: #f2f2f2; }
+
+.page-title {
+  color: #464c50;
+  font-size: 1.6rem/2.2rem;
+  font-weight: 400;
+  margin-bottom: .75rem;
+  word-wrap: break-word;
+  height: 2rem;
+  letter-spacing: .5px;
+}
+
+.mild-padding { padding: 12px 0; }
+
+.light-grey { color: #8f989d; }
+
+small { margin-bottom: 8px; }
+
+.btn-orange-outline {
+  background-color: white;
+  border: 1px solid #ee6123;
+  border-radius: 2px;
+  color: #ee6123;
+}
+
+.btn-orange-outline:hover {
+  background-color: #ee6123;
+  color: white;
+}

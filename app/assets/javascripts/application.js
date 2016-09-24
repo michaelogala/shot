@@ -25,4 +25,25 @@ $(document).ready(function() {
   }, 4500);
 
   $('[data-toggle = "tooltip"]').tooltip();
-});
+
+  $('#btn_copy').on('click', function(){
+    copyToClipboard($('#copy_target'));
+    });
+  });
+
+  $('#btn_copy').click( function() {
+    setTimeout(function() {
+      $('#copy_alert').fadeOut('slow', function() {
+        $(this).remove();
+      });
+    }, 4500);
+  });
+
+
+function copyToClipboard(element) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val($(element).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+}

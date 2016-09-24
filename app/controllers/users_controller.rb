@@ -2,6 +2,6 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
   layout 'dashboard'
   def show
-    @user = current_user
+    @link = Link.find_by(id: params[:link_id]) || Link.first
   end
 end

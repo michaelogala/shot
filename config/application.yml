@@ -11,3 +11,6 @@
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
 BASE_URL: 'localhost:3001/'
+
+production:
+  BASE_URL: 'turbo-url.herokuapp.com/'
