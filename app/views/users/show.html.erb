@@ -5,14 +5,18 @@
         <span class="pull-left">&nbsp;&nbsp;<%= pluralize(current_user.links.size, "Turbolink") %></span>
         <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
       </div>
-      <% current_user.links.each do |link| %>
+      <%if current_user.links %>
+      <% current_user.links.each do |link| -%>
         <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/dashboard?link_id=<%= link.id %>">
-          <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') %></h4>
+          <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
           <p class="list-group-item-text">
-            <small class="text-orange"><%= link.display_slug %></small>
-            <small class="pull-right"><%= link.clicks %>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
+            <small class="text-orange"><%= link.display_slug -%></small>
+            <small class="pull-right"><%= link.clicks -%>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
           </p>
         </a>
+      <% end -%>
+      <% else %>
+        <div class="lead">No links yet. Create one now</div>
       <% end %>
     </div>
   </div>

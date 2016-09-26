@@ -1,12 +1,14 @@
-<%= form_for :link, url: {controller: :links, action: 'update', id: @link.id} do |f| %>
+<% if @link %>
+<%= form_for :link, url: {controller: :links, action: 'update', id: @link.id} do |f| -%>
   <div class="form-group">
-    <%= f.label "Main URL", class: 'control-label' %>
-    <%= f.url_field :given_url, class: 'form-control', 'autocomplete': 'false' %>
+    <%= f.label "Main URL", class: 'control-label' -%>
+    <%= f.url_field :given_url, class: 'form-control', 'autocomplete': 'false' -%>
   </div>
   <div class="form-group">
-    <%= f.label "Short URL", class: 'control-label' %>
-    <%= f.text_field :slug, class: 'form-control', 'autocomplete': 'false' %>
+    <%= f.label "Short URL", class: 'control-label' -%>
+    <%= f.text_field :slug, class: 'form-control', 'autocomplete': 'false' -%>
   </div>
   <hr>
-  <%= f.submit "Update Link", class: 'btn btn-large btn-primary' %>
+  <%= f.submit "Update Link", class: 'btn btn-large btn-primary' -%>
+<% end -%>
 <% end %>

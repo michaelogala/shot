@@ -12,7 +12,7 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.new(link_params)
+    @link = Link.new(normalize_params)
     @link.user_id = current_user.id if current_user
     if !find_link_by_url(@link)
       if @link.save
@@ -76,7 +76,7 @@ class LinksController < ApplicationController
     end
 
     def find_link_by_url(link)
-      @link = Link.find_by(given_url: link.given_url)
+      Link.find_by(given_url: link.given_url)
     end
 
     def update_current_user(link)
