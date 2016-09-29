@@ -9,7 +9,6 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
-gem 'devise', '~> 4.2'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1', '>= 1.1.1'
@@ -34,6 +33,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.7'
   gem 'capybara', '~> 2.9', '>= 2.9.1'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
+  gem 'faker', '~> 1.6', '>= 1.6.6'
 end
 
 group :development do

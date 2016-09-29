@@ -45,20 +45,20 @@
   <div class="col-lg-4 col-sm-12">
     <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Influential Users</strong></h4>
     <table class="table table-responsive table-bordered">
-      <% @influential_users.each do |user| %>
+      <%# @influential_users.each do |user| %>
         <tr>
           <td>
             <div class="col-lg-2">
-              <%= image_tag("user.png", class: "img-responsive", alt: "User" ) %>
+              <%#= image_tag("user.png", class: "img-responsive", alt: "User" ) %>
             </div>
-            <div class="col-lg-10"><%= user.first_name %> <%= user.last_name %>
+            <div class="col-lg-10"><%#= user.first_name %> <%#= user.last_name %>
               <br>
-              <small class="small">Member Since <%= time_ago_in_words(user.created_at) %></small>
-              <small class="small pull-right"><span class="badge"><%= pluralize(user.links.size, "link") %></span></small>
+              <small class="small">Member Since <%#= time_ago_in_words(user.created_at) %></small>
+              <small class="small pull-right"><span class="badge"><%#= pluralize(user.links.size, "link") %></span></small>
             </div>
           </td>
         </tr>
-      <% end %>
+      <%# end %>
     </table>
   </div>
   <div class="col-lg-4 col-sm-12">

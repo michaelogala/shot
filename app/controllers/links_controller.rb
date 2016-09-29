@@ -4,25 +4,21 @@ class LinksController < ApplicationController
   before_action :normalize_params, only: [:update]
 
   def index
-    redirect_to '/dashboard' if current_user
     @recent_links = Link.newest_first
     @popular_links = Link.popular
-    @influential_users = User.top_users
+    # @influential_users = User.top_users
     @new_link = Link.new
   end
 
   def create
     @link = Link.new(normalize_params)
-    @link.user_id = current_user.id if current_user
-    if !find_link_by_url(@link)
-      if @link.save
-        flash[:link] = Message.display_link(@link)
-        flash[:notice] = Message.new_link_success
-        redirect_to :back
-      else
-        render 'index'
-        flash[:error] = Message.new_link_error
-      end
+    if @link.save
+      flash[:link] = Message.display_link(@link)
+      flash[:notice] = Message.new_link_success
+      redirect_to :back
+    elsif
+      render 'index'
+      flash[:error] = Message.new_link_error
     else
       flash[:link] = Message.display_link(find_link_by_url(@link))
       redirect_to :back
@@ -35,20 +31,20 @@ class LinksController < ApplicationController
   def update
     if @link.update(normalize_params)
       flash[:notice] = Message.link_updated
-      redirect_to '/dashboard'
+      redirect_to :back
     end
   end
 
   def activate
     @link.update_attributes(active: true)
     flash[:notice] = Message.link_activated
-    redirect_to '/dashboard'
+    redirect_to :back
   end
 
   def deactivate
     if @link.update_attributes(active: false)
       flash[:notice] = Message.link_deactivated
-      redirect_to '/dashboard'
+      redirect_to :back
     end
   end
 

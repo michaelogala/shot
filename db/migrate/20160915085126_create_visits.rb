@@ -1,5 +1,5 @@
 class CreateVisits < ActiveRecord::Migration
-  def change
+  def up
     create_table :visits do |t|
       t.references :link
       t.string :ip_address
@@ -11,5 +11,9 @@ class CreateVisits < ActiveRecord::Migration
 
       t.timestamps null: false
     end
+  end
+
+  def down
+    drop_table :visits
   end
 end

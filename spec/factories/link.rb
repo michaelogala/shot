@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :link do
-    given_url 'http://google.com'
+    given_url Faker::Internet.url
   end
 end

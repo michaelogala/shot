@@ -31,22 +31,22 @@
       <div class="modal-body">
         <!-- Log In form -->
 
-        <%= form_for(:user, url: session_path(:user)) do |f| %>
+        <%#= form_for :user, url: {} do |f| %>
           <div class="form-group">
-            <%= f.label :email, class: "control-label" %><br />
-            <%= f.email_field :email, autofocus: true, class: "form-control" %>
+            <%#= f.label :email, class: "control-label" %><br />
+            <%#= f.email_field :email, autofocus: true, class: "form-control" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password, class: "control-label" %><br />
-            <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+            <%#= f.label :password, class: "control-label" %><br />
+            <%#= f.password_field :password, autocomplete: "off", class: "form-control" %>
           </div>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <%= f.submit "Log in", class: "btn btn-primary"%>
-      <% end %><!-- end form_for -->
+        <%#= f.submit "Log in", class: "btn btn-primary"%>
+      <%# end %><!-- end form_for -->
       </div>
     </div>
   </div>
@@ -61,42 +61,42 @@
         <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
       </div>
       <div class="modal-body">
-        <%= form_for(:user, url: registration_path(:user)) do |f| %>
+        <%#= form_for(:user, url: registration_path(:user)) do |f| %>
 
           <div class="form-group">
-            <%= f.label :first_name, class: "control-label" %><br />
-            <%= f.text_field :first_name, autofocus: true, class: "form-control" %>
+            <%#= f.label :first_name, class: "control-label" %><br />
+            <%#= f.text_field :first_name, autofocus: true, class: "form-control" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :last_name, class: "control-label" %><br />
-            <%= f.text_field :last_name, class: "form-control" %>
+            <%#= f.label :last_name, class: "control-label" %><br />
+            <%#= f.text_field :last_name, class: "form-control" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :email, class: "control-label" %><br />
-            <%= f.email_field :email, class: "form-control" %>
+            <%#= f.label :email, class: "control-label" %><br />
+            <%#= f.email_field :email, class: "form-control" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password, class: "control-label" %>
-            <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
-            <% end %><br />
-            <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+            <%#= f.label :password, class: "control-label" %>
+            <%# if @minimum_password_length %>
+            <em>(<%#= @minimum_password_length %> characters minimum)</em>
+            <%# end %><br />
+            <%#= f.password_field :password, autocomplete: "off", class: "form-control" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :password_confirmation, class: "control-label" %><br />
-            <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+            <%#= f.label :password_confirmation, class: "control-label" %><br />
+            <%#= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
           </div>
 
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <%= f.submit "Sign up", class: "btn btn-primary" %>
-        <% end %><!-- end sign up form -->
+        <%#= f.submit "Sign up", class: "btn btn-primary" %>
+        <%# end %><!-- end sign up form -->
       </div>
 
     </div>
