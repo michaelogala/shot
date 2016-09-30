@@ -18,7 +18,7 @@ gem 'sidekiq'
 gem "browser"
 gem "codeclimate-test-reporter", group: :test, require: nil
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -34,6 +34,7 @@ group :development, :test do
   gem 'capybara', '~> 2.9', '>= 2.9.1'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'faker', '~> 1.6', '>= 1.6.6'
+  gem 'pry', '~> 0.10.4'
 end
 
 group :development do

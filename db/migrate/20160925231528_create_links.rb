@@ -2,7 +2,7 @@ class CreateLinks < ActiveRecord::Migration
   def up
     create_table :links do |t|
       t.string :given_url, null: false
-      t.string :slug, unique: true, null: false
+      t.string :slug, unique: true
       t.integer :clicks, default: 0
       t.string :title
       t.boolean :active, default: true

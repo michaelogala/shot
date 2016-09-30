@@ -1,4 +1,17 @@
 class Message
+
+  def self.new_user
+    'You successfully signed up'
+  end
+
+  def self.require_login
+    'You need to log in first'
+  end
+
+  def self.log_in_error
+    'Invalid username/password combination'
+  end
+
   def self.new_link_success
     'Link was successfully created'
   end
@@ -29,5 +42,13 @@ class Message
 
   def self.link_updated
     'Link has been updated'
+  end
+
+  def self.logged_in
+    'Login Successful'
+  end
+
+  def self.logged_out
+    'You have logged out'
   end
 end

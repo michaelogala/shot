@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dashboard | <%= current_user.first_name %></title>
+  <title>Dashboard | <%= @user.first_name %></title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -33,10 +33,6 @@
   </div>
     <%= yield %>
   </div>
-<!--     <div id="copy_alert" role="alert">
-      <p>Copied</p>
-    </div> -->
-  <!-- clipboard js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 </body>
 </html>

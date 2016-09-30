@@ -83,7 +83,7 @@ class LinksController < ApplicationController
 
     def normalize_params
       params = link_params
-      params[:slug] = params[:slug].gsub(' ', '-')
+      params[:slug] = params[:slug].gsub(' ', '-') if params[:slug]
       params
     end
 end

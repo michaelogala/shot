@@ -2,11 +2,11 @@
   <div class="col-lg-4 bg-f2">
     <div class="list-group">
       <div class="list-group-item mild-padding" style="overflow: hidden">
-        <span class="pull-left">&nbsp;&nbsp;<%= pluralize(current_user.links.size, "Turbolink") %></span>
+        <span class="pull-left">&nbsp;&nbsp;<%= pluralize(@links.size, "Turbolink") %></span>
         <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
       </div>
-      <%if current_user.links %>
-      <% current_user.links.each do |link| -%>
+      <%if @links %>
+      <% @links.each do |link| -%>
         <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/dashboard?link_id=<%= link.id %>">
           <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
           <p class="list-group-item-text">
