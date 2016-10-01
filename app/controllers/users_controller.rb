@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
-  before_action :confirm_logged_in,
-    except: [:new, :create, :sign_out, :sign_in, :attempt_login]
-  before_action :find_user, only: [:edit, :update, :show]
-  layout 'dashboard', except: [:new, :edit, :sign_in, :attempt_login]
+  before_action :confirm_logged_in, only: [:edit, :update, :show]
+  before_action :find_user_from_session, only: [:edit, :update, :show]
+  layout 'dashboard', only: [:show]
 
   def new
     @user = User.new
@@ -12,6 +11,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = Message.new_user
+      session[:id] = @user.id
       redirect_to dashboard_path
     else
       render 'new'
@@ -33,14 +33,9 @@ class UsersController < ApplicationController
   end
 
   def attempt_login
-    if params[:user][:email].present? && params[:user][:password].present?
-      found_user = User.where(email: params[:user][:email]).first
-      if found_user
-        authorized_user = found_user.authenticate(params[:user][:password])
-      end
-    end
-    if authorized_user
-      session[:id] = authorized_user.id
+    autheticated_user = authenticate(find_user_from_params)
+    if autheticated_user
+      session[:id] = autheticated_user.id
       flash[:notice] = Message.logged_in
       redirect_to dashboard_path
     else
@@ -61,7 +56,17 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email, :password)
   end
 
-  def find_user
+  def find_user_from_session
     @user = User.find(session[:id])
+  end
+
+  def find_user_from_params
+    if params[:user][:email].present? && params[:user][:password].present?
+      User.where(email: params[:user][:email]).first
+    end
+  end
+
+  def authenticate(user)
+    user.authenticate(params[:user][:password])
   end
 end

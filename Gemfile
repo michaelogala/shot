@@ -16,7 +16,6 @@ gem 'imgkit', '~> 1.6', '>= 1.6.1'
 gem 'mechanize'
 gem 'sidekiq'
 gem "browser"
-gem "codeclimate-test-reporter", group: :test, require: nil
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
@@ -35,6 +34,10 @@ group :development, :test do
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'faker', '~> 1.6', '>= 1.6.6'
   gem 'pry', '~> 0.10.4'
+end
+
+group :test do
+  gem "codeclimate-test-reporter", require: nil
 end
 
 group :development do

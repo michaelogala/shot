@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'links#index'
 
   scope controller: :users do
-    get '/dashboard' => :show, as: :dashboard
+    get '/users/dashboard' => :show, as: :dashboard
     get 'users/sign_in' => :sign_in, as: :sign_in
     get 'users/login' => :sign_in
     get 'users/sign_out'=> :sign_out, as: :log_out

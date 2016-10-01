@@ -2,8 +2,8 @@ class RequestDetails
 
   def self.user_agent_params(request)
     {
-      ip:               request.remote_ip,
-      referer:          request.referer
+      ip:       request.remote_ip,
+      referer:  request.referer
     }
   end
 

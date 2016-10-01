@@ -13,4 +13,5 @@ class User < ActiveRecord::Base
                           format: EMAIL_REGEX,
                           confirmation: true,
                           uniqueness: true
+  scope :top_users, -> { order('users.link_count DESC').limit(5)}
 end

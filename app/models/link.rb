@@ -3,16 +3,18 @@ class Link < ActiveRecord::Base
   belongs_to :user
   has_many :visits
 
-  scope :newest_first, lambda { order("links.created_at DESC").limit(5) }
-  scope :popular, lambda { order("links.clicks DESC").limit(5) }
-  scope :find_url, lambda { select('given_url').where(slug: :slug) }
+  scope :newest_first, -> { order("links.created_at DESC").limit(5) }
+  scope :popular, -> { order("links.clicks DESC").limit(5) }
+  scope :find_url, -> { select('given_url').where(slug: :slug) }
+
   after_create :generate_slug_and_scrape
+
+  validates :given_url, presence: true
+  validates :slug, uniqueness: true
 
   def generate_slug_and_scrape
     self.slug ||= SecureRandom.urlsafe_base64(4)
-    self.title = Mechanize.new
-                          .get(self.given_url)
-                          .title
+    self.title = Mechanize.new.get(self.given_url).title
     self.save
   end
 

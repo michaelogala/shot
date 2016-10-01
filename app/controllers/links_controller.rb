@@ -1,17 +1,20 @@
 class LinksController < ApplicationController
+  include Concerns::Utility
   before_action :find_link, only: [:show, :update, :destroy, :activate, :deactivate]
-  before_action :authenticate_user!, only: [:edit, :update, :show, :destroy]
+  before_action :confirm_logged_in,
+    except: [:index, :create]
   before_action :normalize_params, only: [:update]
 
   def index
     @recent_links = Link.newest_first
     @popular_links = Link.popular
-    # @influential_users = User.top_users
+    @influential_users = User.top_users
     @new_link = Link.new
   end
 
   def create
     @link = Link.new(normalize_params)
+    update_current_user(@link)
     if @link.save
       flash[:link] = Message.display_link(@link)
       flash[:notice] = Message.new_link_success
@@ -76,9 +79,11 @@ class LinksController < ApplicationController
     end
 
     def update_current_user(link)
-      current_user.links << link
-      current_user.link_count += 1
-      current_user.save
+      if current_user
+        current_user.links << link
+        current_user.link_count += 1
+        current_user.save
+      end
     end
 
     def normalize_params
