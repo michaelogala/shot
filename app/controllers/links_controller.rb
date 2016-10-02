@@ -1,5 +1,6 @@
 class LinksController < ApplicationController
   include Concerns::Utility
+  extend Concerns::Message
   before_action :confirm_logged_in,
     except: [:index, :create]
   before_action :normalize_params, only: [:update]

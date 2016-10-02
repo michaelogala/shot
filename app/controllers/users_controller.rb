@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  extend Concerns::Message
   before_action :confirm_logged_in, only: [:edit, :update, :show]
   before_action :find_user_from_session, only: [:edit, :update, :show]
   layout 'dashboard', only: [:show]
