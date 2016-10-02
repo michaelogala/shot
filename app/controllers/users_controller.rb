@@ -14,14 +14,8 @@ class UsersController < ApplicationController
       session[:id] = @user.id
       redirect_to dashboard_path
     else
-      render 'new'
+      redirect_to action: 'new'
     end
-  end
-
-  def edit
-  end
-
-  def update
   end
 
   def show
@@ -67,6 +61,6 @@ class UsersController < ApplicationController
   end
 
   def authenticate(user)
-    user.authenticate(params[:user][:password])
+    user.authenticate(params[:user][:password]) if user
   end
 end

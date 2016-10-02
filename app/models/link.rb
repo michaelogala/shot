@@ -7,13 +7,13 @@ class Link < ActiveRecord::Base
   scope :popular, -> { order("links.clicks DESC").limit(5) }
   scope :find_url, -> { select('given_url').where(slug: :slug) }
 
-  after_create :generate_slug_and_scrape
+  # after_create :scrape_title
 
   validates :given_url, presence: true
-  validates :slug, uniqueness: true
+  validates :slug,      uniqueness: true,
+                        presence: true
 
-  def generate_slug_and_scrape
-    self.slug ||= SecureRandom.urlsafe_base64(4)
+  def scrape_title
     self.title = Mechanize.new.get(self.given_url).title
     self.save
   end

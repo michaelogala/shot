@@ -4,6 +4,10 @@ class Message
     'You successfully signed up'
   end
 
+  def self.unknown_user
+    'You are ont registered. You need to sign up'
+  end
+
   def self.require_login
     'You need to log in first'
   end

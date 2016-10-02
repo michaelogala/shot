@@ -7,8 +7,6 @@ layout false
   def show
     if params[:slug]
       link = Link.find_by(slug: params[:slug])
-      p '*' * 70
-      puts link
       if !link
         render 'deleted'
       elsif link.active?

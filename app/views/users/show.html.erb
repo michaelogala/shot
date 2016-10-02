@@ -7,7 +7,7 @@
       </div>
       <%if @links %>
       <% @links.each do |link| -%>
-        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/dashboard?link_id=<%= link.id %>">
+        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
           <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
           <p class="list-group-item-text">
             <small class="text-orange"><%= link.display_slug -%></small>
@@ -35,9 +35,18 @@
               &nbsp;&nbsp;
               <button id="btn_copy" data-clipboard-target="#copy_target" class="btn btn-xs btn-orange-outline">Copy</button>
               &nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe, '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>&nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#', class: 'btn btn-orange-outline btn-xs', data: {toggle: "modal", target: '#edit-link'} %>&nbsp;&nbsp;
-            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe, {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :destroy, data: {confirm: "Sure to delete?"} %>
+
+            <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe,
+             '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>
+            &nbsp;&nbsp;
+
+            <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#',
+             class: 'btn btn-orange-outline btn-xs', data: {toggle: "modal", target: '#edit-link'} %>
+            &nbsp;&nbsp;
+
+            <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe,
+             {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs',
+              method: :destroy, data: {confirm: "Sure to delete?"} %>
             </div>
           </td>
         </tr>
@@ -49,9 +58,11 @@
             Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
             &nbsp;&nbsp;
             <% if @link.active? %>
-              <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :deactivate %>
+              <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id},
+                class: 'btn btn-orange-outline btn-xs', method: :deactivate %>
             <% else %>
-              <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id}, class: 'btn btn-orange-outline btn-xs', method: :activate %>
+              <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id},
+                class: 'btn btn-orange-outline btn-xs', method: :activate %>
             <% end %>
           </td>
         </tr>
