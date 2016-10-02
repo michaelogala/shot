@@ -18,9 +18,9 @@ RSpec.describe UsersController, type: :controller do
 
     context 'with valid params' do
       it 'should create a user' do
-        expect {
+        expect do
           post :create, user: attributes_for(:user)
-        }.to change(User, :count).by 1
+        end.to change(User, :count).by 1
         expect(flash[:notice]).to be_present
         expect(response.status).to eq 302
         expect(session[:id]).to_not be_nil
@@ -29,18 +29,18 @@ RSpec.describe UsersController, type: :controller do
 
     context 'without password' do
       it 'should fail to create a user' do
-        expect {
+        expect do
           post :create, user: attributes_for(:user, password: nil)
-        }.to_not change(User, :count)
+        end.to_not change(User, :count)
         expect(response.status).to eq 302
       end
     end
 
     context 'without email' do
       it 'should fail to create a user' do
-        expect {
+        expect do
           post :create, user: attributes_for(:user, email: nil)
-        }.to_not change(User, :count)
+        end.to_not change(User, :count)
         expect(response.status).to eq 302
       end
     end
@@ -74,10 +74,10 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe '#attempt_login' do
-    before {
+    before do
       user = create(:user)
       post :attempt_login, user: attributes_for(:user)
-    }
+    end
     context 'with valid params' do
       it { should set_flash }
       it { should redirect_to dashboard_path }
@@ -89,9 +89,9 @@ RSpec.describe UsersController, type: :controller do
 
   describe '#sign_in' do
     context 'with invalid params' do
-      before{
+      before do
         post :attempt_login, user: attributes_for(:user, email: nil)
-      }
+      end
       it { should set_flash }
       it { should render_template 'sign_in' }
       it 'should not have a session' do

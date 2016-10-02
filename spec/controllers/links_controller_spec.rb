@@ -24,9 +24,9 @@ RSpec.describe LinksController, type: :controller do
     end
     context 'with valid parameters' do
       it 'should succeed and redirect back' do
-        expect {
+        expect do
           post :create, link: attributes_for(:link)
-        }.to change(Link, :count).by 1
+        end.to change(Link, :count).by 1
         expect(flash[:notice]).to be_present
         expect(flash[:link]).to be_present
         expect(response.status).to eq(302)
@@ -35,9 +35,9 @@ RSpec.describe LinksController, type: :controller do
 
     context 'with invalid parameters' do
       it 'should fail' do
-        expect {
+        expect do
           post :create, link: attributes_for(:link, given_url: nil)
-        }.to_not change(Link, :count)
+        end.to_not change(Link, :count)
         expect(flash[:error]).to be_present
       end
     end

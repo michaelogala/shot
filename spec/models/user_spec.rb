@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   context 'Validations' do
     it { should have_secure_password }
     it { should validate_presence_of :first_name }
-    it { should validate_length_of :first_name}
+    it { should validate_length_of :first_name }
     it { should validate_presence_of :last_name }
     it { should validate_length_of :last_name }
     it { should validate_presence_of :email }
@@ -18,12 +18,12 @@ RSpec.describe User, type: :model do
   end
 
   context 'Associations' do
-    it { should have_many (:links) }
+    it { should have_many :links }
   end
 
   context 'Scopes' do
     it 'should return users in order of their link count' do
-      expect(User.top_users.order_values).to eq(['users.link_count DESC'])
+      expect(User.top_users.order_values).to eq ['users.link_count DESC']
     end
   end
 end

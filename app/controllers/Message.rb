@@ -25,7 +25,7 @@ class Message
   end
 
   def self.display_link(link)
-    "#{link.display_slug}"
+    link.display_slug.to_s
   end
 
   def self.link_deleted

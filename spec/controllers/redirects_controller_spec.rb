@@ -16,7 +16,7 @@ RSpec.describe RedirectsController, type: :controller do
     context 'with a valid slug' do
       it 'redirects successfully' do
         link = Link.create(given_url: Faker::Internet.url,
-                            slug: Faker::Internet.slug )
+                           slug: Faker::Internet.slug)
         get :show, slug: link.slug
         expect(response.status).to eq 302
         link.reload
@@ -35,7 +35,7 @@ RSpec.describe RedirectsController, type: :controller do
 
     context 'when link is not active' do
       link2 = Link.create(given_url: 'http://andela.com',
-                slug: Faker::Internet.slug, active: false)
+                          slug: Faker::Internet.slug, active: false)
       it 'renders inactive' do
         get :show, slug: link2.slug
         expect(response).to render_template 'inactive'

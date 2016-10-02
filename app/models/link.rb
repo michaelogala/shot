@@ -14,11 +14,11 @@ class Link < ActiveRecord::Base
                         presence: true
 
   def scrape_title
-    self.title = Mechanize.new.get(self.given_url).title
-    self.save
+    self.title = Mechanize.new.get(given_url).title
+    save
   end
 
   def display_slug
-   ENV['BASE_URL'] + self.slug
+    ENV['BASE_URL'] + slug
   end
 end

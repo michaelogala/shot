@@ -8,7 +8,8 @@ class RequestDetails
   end
 
   private
-    def user_agent
-      UserAgent.parse(@request.user_agent)
-    end
+
+  def user_agent
+    UserAgent.parse(@request.user_agent)
+  end
 end

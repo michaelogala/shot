@@ -10,6 +10,6 @@ RSpec.describe Visit, type: :model do
   end
 
   context 'Associations' do
-    it { should belong_to :link}
+    it { should belong_to :link }
   end
 end
