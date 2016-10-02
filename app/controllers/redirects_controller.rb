@@ -1,6 +1,5 @@
 class RedirectsController < ApplicationController
 include RedirectsHelper
-extend Concerns::Message
 layout false
   def inactive
   end
