@@ -33,17 +33,21 @@ group :development, :test do
   gem 'capybara', '~> 2.9', '>= 2.9.1'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'faker', '~> 1.6', '>= 1.6.6'
-  gem 'pry', '~> 0.10.4'
+  gem 'pry-rails', '~> 0.3.4'
 end
 
 group :test do
+  gem "webmock", group: :test
+  gem "poltergeist"
+  gem "phantomjs", require: "phantomjs/poltergeist"
   gem "codeclimate-test-reporter", require: nil
+  gem "simplecov", require: false
+  gem "coveralls", require: false
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-  gem 'pry-rails', '~> 0.3.4'
   gem 'sqlite3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

@@ -8,6 +8,10 @@ class Message
     'You are ont registered. You need to sign up'
   end
 
+  def self.sign_up_error
+    'All fields are required'
+  end
+
   def self.require_login
     'You need to log in first'
   end

@@ -46,7 +46,7 @@
 
             <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe,
              {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs',
-              method: :destroy, data: {confirm: "Sure to delete?"} %>
+              method: :delete, data: {confirm: "Sure to delete?"} %>
             </div>
           </td>
         </tr>
@@ -59,10 +59,10 @@
             &nbsp;&nbsp;
             <% if @link.active? %>
               <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id},
-                class: 'btn btn-orange-outline btn-xs', method: :deactivate %>
+                class: 'btn btn-orange-outline btn-xs', method: :post %>
             <% else %>
               <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id},
-                class: 'btn btn-orange-outline btn-xs', method: :activate %>
+                class: 'btn btn-orange-outline btn-xs', method: :post %>
             <% end %>
           </td>
         </tr>

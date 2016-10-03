@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       session[:id] = @user.id
       redirect_to dashboard_path
     else
+      flash[:notice] = Message.sign_up_error
       redirect_to action: 'new'
     end
   end

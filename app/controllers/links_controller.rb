@@ -27,20 +27,20 @@ class LinksController < ApplicationController
   def update
     if @link.update_attributes(normalize_params)
       flash[:notice] = Message.link_updated
-      redirect_to dashboard_path
+      redirect_to :back
     end
   end
 
   def activate
     @link.update_attributes(active: true)
     flash[:notice] = Message.link_activated
-    redirect_to dashboard_path
+    redirect_to :back
   end
 
   def deactivate
     if @link.update_attributes(active: false)
       flash[:notice] = Message.link_deactivated
-      redirect_to dashboard_path
+      redirect_to :back
     end
   end
 

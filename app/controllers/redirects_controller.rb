@@ -7,13 +7,16 @@ class RedirectsController < ApplicationController
 
   def show
     link = Link.find_by(slug: params[:slug])
-    if !link
-      render 'deleted'
-    elsif link.active?
-      visit_and_update(link)
+    if link
+      if link.active?
+        visit_and_update(link)
+      else
+        render 'inactive'
+      end
     else
-      render 'inactive'
+      render 'deleted'
     end
+
   end
 
   def deleted
