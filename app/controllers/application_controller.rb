@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include MessageHelper
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -7,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def confirm_logged_in
     unless session[:id]
-      flash[:notice] = Message.require_login
+      flash[:notice] = require_login
       redirect_to controller: :users, action: 'sign_in'
       false
     end

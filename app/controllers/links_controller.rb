@@ -15,38 +15,38 @@ class LinksController < ApplicationController
     @link = Link.new(normalize_params)
     update_current_user(@link)
     if @link.save
-      flash[:link] = Message.display_link(@link)
-      flash[:notice] = Message.new_link_success
+      flash[:link] = display_link(@link)
+      flash[:notice] = new_link_success
       redirect_to :back
     else
-      flash[:error] = Message.new_link_error
+      flash[:error] = new_link_error
       redirect_to :back
     end
   end
 
   def update
     if @link.update_attributes(normalize_params)
-      flash[:notice] = Message.link_updated
+      flash[:notice] = link_updated
       redirect_to :back
     end
   end
 
   def activate
     @link.update_attributes(active: true)
-    flash[:notice] = Message.link_activated
+    flash[:notice] = link_activated
     redirect_to :back
   end
 
   def deactivate
     if @link.update_attributes(active: false)
-      flash[:notice] = Message.link_deactivated
+      flash[:notice] = link_deactivated
       redirect_to :back
     end
   end
 
   def destroy
     @link.destroy
-    flash[:notice] = Message.link_deleted
+    flash[:notice] = link_deleted
     redirect_to dashboard_path
   end
 

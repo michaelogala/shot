@@ -10,11 +10,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = Message.new_user
+      flash[:notice] = new_user
       session[:id] = @user.id
       redirect_to dashboard_path
     else
-      flash[:notice] = Message.sign_up_error
+      flash[:notice] = sign_up_error
       redirect_to action: 'new'
     end
   end
@@ -31,17 +31,17 @@ class UsersController < ApplicationController
     autheticated_user = authenticate(find_user_from_params)
     if autheticated_user
       session[:id] = autheticated_user.id
-      flash[:notice] = Message.logged_in
+      flash[:notice] = logged_in
       redirect_to dashboard_path
     else
-      flash[:notice] = Message.log_in_error
+      flash[:notice] = log_in_error
       render 'sign_in'
     end
   end
 
   def sign_out
     session[:id] = nil
-    flash[:notice] = Message.logged_out
+    flash[:notice] = logged_out
     redirect_to root_path
   end
 
