@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.feature "Dashboard", type: :feature do
+
   before (:each) do
     sign_up
     visit dashboard_path
