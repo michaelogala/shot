@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/github/andela-mogala/shot/badges/gpa.svg)](https://codeclimate.com/github/andela-mogala/shot)
+[![Test Coverage](https://codeclimate.com/github/andela-mogala/shot/badges/coverage.svg)](https://codeclimate.com/github/andela-mogala/shot/coverage)
+[![Build Status](https://travis-ci.org/andela-mogala/shot.svg?branch=master)](https://travis-ci.org/andela-mogala/shot)
+
 == README
 
 This README would normally document whatever steps are necessary to get the
@@ -23,6 +27,3 @@ Things you may want to cover:
 
 * ...
 
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
