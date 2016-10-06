@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe LinksController, type: :controller do
 
   describe '#index' do
-    before (:each) do
+    before do
       get :index
     end
 
@@ -20,7 +20,7 @@ RSpec.describe LinksController, type: :controller do
 
   describe '#create' do
     before do
-      request.env["HTTP_REFERER"] = '/dashboard'
+      request.env['HTTP_REFERER'] = '/dashboard'
     end
     context 'with valid parameters' do
       it 'should succeed and redirect back' do
@@ -45,8 +45,12 @@ RSpec.describe LinksController, type: :controller do
 
   describe '#update' do
     it 'updates link and redirects to HTTP_REFERER' do
-      link = Link.create(given_url: Faker::Internet.url, slug: Faker::Internet.slug)
-      post :update, id: link.id, slug: 'some', given_url: link.given_url, active: true
+      link = Link.create(given_url: Faker::Internet.url,
+                         slug: Faker::Internet.slug)
+      post :update, id: link.id,
+                   slug: 'some',
+                   given_url: link.given_url,
+                   active: true
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end
@@ -65,7 +69,8 @@ RSpec.describe LinksController, type: :controller do
 
   describe '#deactivate' do
     it 'sets the link status to active' do
-      link = Link.create(given_url: Faker::Internet.url, slug: Faker::Internet.slug)
+      link = Link.create(given_url: Faker::Internet.url,
+                         slug: Faker::Internet.slug)
       post :deactivate, id: link.id, active: false
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
@@ -74,7 +79,8 @@ RSpec.describe LinksController, type: :controller do
 
   describe '#destroy' do
     it 'removes the link from db' do
-      link = Link.create(given_url: Faker::Internet.url, slug: Faker::Internet.slug)
+      link = Link.create(given_url: Faker::Internet.url,
+                         slug: Faker::Internet.slug)
       delete :destroy, id: link.id
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present

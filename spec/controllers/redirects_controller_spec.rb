@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RedirectsController, type: :controller do
-
   describe '#inactive' do
     before { get :inactive }
     it { should render_template 'inactive' }

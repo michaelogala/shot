@@ -5,12 +5,12 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-require "factory_girl"
-require "capybara"
-require "capybara/rspec"
-require "capybara/rails"
-require "capybara/poltergeist"
-require "webmock/rspec"
+require 'factory_girl'
+require 'capybara'
+require 'capybara/rspec'
+require 'capybara/rails'
+require 'capybara/poltergeist'
+require 'webmock/rspec'
 
 WebMock.allow_net_connect!
 
@@ -53,10 +53,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-
-
   config.infer_spec_type_from_file_location!
-
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
@@ -71,12 +68,20 @@ RSpec.configure do |config|
 end
 
 def sign_up
+  setup_params
+  visit root_path
+  click_link 'Sign Up'
+  fill_signup_form
+end
+
+def setup_params
   @password = Faker::Internet.password(8)
   @first_name = Faker::Name.first_name
   @last_name = Faker::Name.last_name
   @email = Faker::Internet.email
-  visit root_path
-  click_link 'Sign Up'
+end
+
+def fill_signup_form
   fill_in 'user_first_name', with: @first_name
   fill_in 'user_last_name', with: @last_name
   fill_in 'user_email', with: @email

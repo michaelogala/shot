@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "Dashboard", type: :feature do
+RSpec.feature 'Dashboard', type: :feature do
 
   before (:each) do
     sign_up
@@ -69,7 +69,7 @@ RSpec.feature "Dashboard", type: :feature do
     click_link 'Delete'
     expect(page).to have_content 'Link has been deleted'
     visit "/#{@slug}"
-    expect(page).to have_content 'Sorry, this link either doesn\'t exist or has been deleted.'
+    expect(page).to have_content 'Sorry, this link either doesn\'t exist'
   end
 
   def create_a_link
