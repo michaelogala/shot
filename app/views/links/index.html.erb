@@ -18,7 +18,7 @@
 <div class="container clear_top">
 
   <% unless flash[:link].blank? %>
-    <p class="alert alert-success text-center lead"> <%= link_to flash[:link], flash[:link] %></p>
+    <p class="alert alert-success text-center lead"> <%= link_to flash[:link], flash[:slug] %></p>
   <% end %>
 
   <div class="row">

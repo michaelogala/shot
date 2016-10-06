@@ -15,7 +15,8 @@ class LinksController < ApplicationController
     @link = Link.new(normalize_params)
     update_current_user(@link)
     if @link.save
-      flash[:link] = display_link(@link)
+      flash[:link] = @link.display_slug
+      flash[:slug] = @link.slug
       flash[:notice] = new_link_success
       redirect_to :back
     else

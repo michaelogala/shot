@@ -5,7 +5,7 @@ module MessageHelper
   end
 
   def unknown_user
-    'You are ont registered. You need to sign up'
+    'You are not registered. You need to sign up'
   end
 
   def sign_up_error

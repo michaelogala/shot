@@ -7,7 +7,7 @@ class Link < ActiveRecord::Base
   scope :popular, -> { order("links.clicks DESC").limit(5) }
   scope :find_url, -> { select('given_url').where(slug: :slug) }
 
-  # after_create :scrape_title
+  after_create :scrape_title
 
   validates :given_url, presence: true
   validates :slug,      uniqueness: true,
