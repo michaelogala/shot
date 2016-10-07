@@ -49,7 +49,7 @@ RSpec.feature 'Dashboard', type: :feature do
     expect(page).to have_content 'Link has been deactivated'
     expect(page).to have_content 'Status:  Deactivated'
     visit "/#{@slug}"
-    expect(page).to have_content 'Sorry, this link has been deactivated.'
+    expect(page).to have_content 'Sorry'
   end
 
   scenario 'user reactivates a previously deactivated link' do
@@ -69,7 +69,7 @@ RSpec.feature 'Dashboard', type: :feature do
     click_link 'Delete'
     expect(page).to have_content 'Link has been deleted'
     visit "/#{@slug}"
-    expect(page).to have_content 'Sorry, this link either doesn\'t exist'
+    expect(page).to have_content 'Sorry'
   end
 
   def create_a_link

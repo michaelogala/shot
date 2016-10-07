@@ -3,11 +3,11 @@ class LinksController < ApplicationController
   before_action :confirm_logged_in, except: [:index, :create]
   before_action :normalize_params, only: [:update]
   before_action :find_link, only: [
-                                   :show,
-                                   :update,
-                                   :destroy,
-                                   :activate,
-                                   :deactivate
+                                     :show,
+                                     :update,
+                                     :destroy,
+                                     :activate,
+                                     :deactivate
                                   ]
 
   def index

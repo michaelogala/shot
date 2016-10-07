@@ -48,9 +48,9 @@ RSpec.describe LinksController, type: :controller do
       link = Link.create(given_url: Faker::Internet.url,
                          slug: Faker::Internet.slug)
       post :update, id: link.id,
-                   slug: 'some',
-                   given_url: link.given_url,
-                   active: true
+                    slug: 'some',
+                    given_url: link.given_url,
+                    active: true
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end

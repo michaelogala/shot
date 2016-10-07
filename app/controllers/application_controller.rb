@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
     unless session[:id]
       flash[:notice] = require_login
       redirect_to controller: :users, action: 'sign_in'
-      false
     end
   end
 end

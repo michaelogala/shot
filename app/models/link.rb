@@ -1,5 +1,5 @@
+require 'mechanize'
 class Link < ActiveRecord::Base
-  require 'mechanize'
   belongs_to :user
   has_many :visits
 
