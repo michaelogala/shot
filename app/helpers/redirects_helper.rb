@@ -1,5 +1,5 @@
+require 'browser'
 module RedirectsHelper
-  require 'browser'
   def visit_params(request)
     browser = Browser.new(request.user_agent, accept_language: "en-us")
     {

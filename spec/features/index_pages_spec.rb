@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "IndexPages", type: :feature, js: true do
+RSpec.feature 'IndexPages', type: :feature, js: true do
   scenario 'user visits index page' do
     visit root_path
     expect(page).to have_content 'Recent Links'
