@@ -11,6 +11,8 @@ class Link < ActiveRecord::Base
   validates :slug,      uniqueness: true,
                         presence: true
 
+  after_create :scrape_title
+
   def scrape_title
     self.title = Mechanize.new.get(given_url).title
     save
