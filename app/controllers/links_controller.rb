@@ -3,11 +3,11 @@ class LinksController < ApplicationController
   before_action :confirm_logged_in, except: [:index, :create]
   before_action :normalize_params, only: [:update]
   before_action :find_link, only: [
-                                     :show,
-                                     :update,
-                                     :destroy,
-                                     :activate,
-                                     :deactivate
+                                    :show,
+                                    :update,
+                                    :destroy,
+                                    :activate,
+                                    :deactivate
                                   ]
 
   def index
@@ -21,10 +21,7 @@ class LinksController < ApplicationController
     @link = Link.new(normalize_params)
     update_current_user(@link)
     if @link.save
-      flash[:link] = @link.display_slug
-      flash[:slug] = @link.slug
-      flash[:notice] = new_link_success
-      redirect_to :back
+      respond_to_save
     else
       flash[:error] = new_link_error
       redirect_to :back
@@ -34,6 +31,9 @@ class LinksController < ApplicationController
   def update
     if @link.update_attributes(normalize_params)
       flash[:notice] = link_updated
+      redirect_to :back
+    else
+      flash[:notice] = @link.errors.full_messages.to_sentence
       redirect_to :back
     end
   end
@@ -71,10 +71,6 @@ class LinksController < ApplicationController
     @link = Link.find(params[:id])
   end
 
-  def find_link_by_url(link)
-    Link.find_by(given_url: link.given_url)
-  end
-
   def update_current_user(link)
     if current_user
       current_user.links << link
@@ -88,5 +84,12 @@ class LinksController < ApplicationController
     params[:slug] = SecureRandom.urlsafe_base64(4) if params[:slug].blank?
     params[:slug] = params[:slug].tr(' ', '-')
     params
+  end
+
+  def respond_to_save
+    flash[:link] = @link.display_slug
+    flash[:slug] = @link.slug
+    flash[:notice] = new_link_success
+    redirect_to :back
   end
 end
