@@ -6,15 +6,15 @@
         <span class="pull-right">Clicks all time&nbsp;&nbsp;</span>
       </div>
       <%if @links %>
-      <% @links.each do |link| -%>
-        <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
-          <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
-          <p class="list-group-item-text">
-            <small class="text-orange"><%= link.display_slug -%></small>
-            <small class="pull-right"><%= link.clicks -%>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
-          </p>
-        </a>
-      <% end -%>
+        <% @links.each do |link| -%>
+          <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
+            <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
+            <p class="list-group-item-text">
+              <small class="text-orange"><%= link.display_slug -%></small>
+              <small class="pull-right"><%= link.clicks -%>&nbsp;&nbsp;<span class="glyphicon glyphicon-stats"></span></small>
+            </p>
+          </a>
+        <% end -%>
       <% else %>
         <div class="lead">No links yet. Create one now</div>
       <% end %>
@@ -37,7 +37,7 @@
               &nbsp;&nbsp;
 
             <%= link_to "<span class='glyphicon glyphicon-book'></span> Details".html_safe,
-             '#visit-details', data:{toggle: 'collapse'}, class: 'btn btn-orange-outline btn-xs'%>
+             '#visit-details', data:{ toggle: 'collapse' }, class: 'btn btn-orange-outline btn-xs'%>
             &nbsp;&nbsp;
 
             <%= link_to "<span class='glyphicon glyphicon-edit'></span> Edit".html_safe, '#',
@@ -55,7 +55,7 @@
         </tr>
         <tr>
           <td>
-            Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
+            Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Disabled" %>
             &nbsp;&nbsp;
             <% if @link.active? %>
               <%= link_to "Deactivate", { controller: :links, action: :toggle_activate, id: @link.id, active: false },
@@ -67,7 +67,7 @@
           </td>
         </tr>
         <% else %>
-        <div class="lead">Click a link on the left hand side to display the details</div>
+          <div class="lead">Click a link on the left hand side to display the details</div>
         <% end %>
       </tbody>
     </table>

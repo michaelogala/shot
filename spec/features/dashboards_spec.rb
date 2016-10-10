@@ -47,7 +47,7 @@ RSpec.feature 'Dashboard', type: :feature do
     click_link("/#{@slug}")
     click_link 'Deactivate'
     expect(page).to have_content 'Link has been deactivated'
-    expect(page).to have_content 'Status:  Deactivated'
+    expect(page).to have_content 'Status:  Disabled'
     visit "/#{@slug}"
     expect(page).to have_content 'Sorry'
   end

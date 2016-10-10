@@ -50,7 +50,7 @@ class LinksController < ApplicationController
     redirect_to dashboard_path
   end
 
-  private
+private
 
   def link_params
     params.require(:link).permit(:given_url, :slug, :active, :id)
