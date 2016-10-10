@@ -1,7 +1,7 @@
 <div class="jumbotron home-jumbotron">
 <h1 class="text-center">TurboUrl</h1>
   <div class="col-lg-8 col-lg-offset-2">
-    <%= form_for :link, url: {action: 'create'} do |f| %>
+    <%= form_for :link, url: { action: 'create' } do |f| %>
       <div class="input-group input-group-lg">
         <%= f.url_field :given_url, class: "form-control", placeholder: "Paste that ugly long url..." %>
         <span class="input-group-btn">
@@ -17,7 +17,7 @@
 
 <div class="container clear_top">
 
-  <% unless flash[:link].blank? %>
+  <% unless flash.blank? %>
     <p class="alert alert-success text-center lead"> <%= link_to flash[:link], flash[:slug] %></p>
   <% end %>
 
@@ -25,14 +25,14 @@
   <div class="col-lg-4 col-sm-12">
     <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;Recent Links</strong></h4>
     <table class="table table-responsive table-bordered">
-      <% @recent_links.each do |link| %>
+      <% @index_presenter.recent_links.each do |link| %>
         <tr>
           <td>
             <div class="col-lg-2">
               <span class="glyphicon glyphicon-globe text-larger text-primary clear_top_20"></span>
             </div>
             <div class="col-lg-10">
-              <div><%= truncate(link.title, length: 30, omission: '...') || "Not Found" %></div>
+              <div><%= truncate(link.title, length: 30, omission: '...') || 'Not Found' %></div>
               <%= link_to link.display_slug, '/'+link.slug, class: "btn-link" %><br>
               <small class="small">Created <%= time_ago_in_words(link.created_at) %></small>
               <small class="small pull-right"><span class="badge"><%= pluralize(link.clicks, "hit") %></span></small>
@@ -45,7 +45,7 @@
   <div class="col-lg-4 col-sm-12">
     <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Influential Users</strong></h4>
     <table class="table table-responsive table-bordered">
-      <% @influential_users.each do |user| %>
+      <% @index_presenter.influential_users.each do |user| %>
         <tr>
           <td>
             <div class="col-lg-2">
@@ -64,14 +64,14 @@
   <div class="col-lg-4 col-sm-12">
     <h4 class="text-center text-brown"><strong><span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Popular Links</strong></h4>
     <table class="table table-responsive table-bordered">
-      <% @popular_links.each do |link| %>
+      <% @index_presenter.popular_links.each do |link| %>
         <tr>
           <td>
             <div class="col-lg-2">
               <span class="glyphicon glyphicon-star text-larger text-danger clear_top_20"></span>
             </div>
             <div class="col-lg-10">
-              <div><%= truncate(link.title, length: 20, omission: '...') || "Not Found" %></div>
+              <div><%= truncate(link.title, length: 20, omission: '...') || 'Not Found' %></div>
               <%= link_to link.display_slug, '/'+link.slug, class: "btn-link" %><br>
               <small class="small">Created <%= time_ago_in_words(link.created_at) %></small>
               <small class="small pull-right"><span class="badge"><%= pluralize(link.clicks, "hit") %></span></small>

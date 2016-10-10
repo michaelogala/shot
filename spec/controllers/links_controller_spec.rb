@@ -11,9 +11,7 @@ RSpec.describe LinksController, type: :controller do
       expect(response).to render_template('index')
     end
     it 'has all valid instance variables' do
-      expect(assigns(:recent_links)).to_not be_nil
-      expect(assigns(:popular_links)).to_not be_nil
-      expect(assigns(:influential_users)).to_not be_nil
+      expect(assigns(:index_presenter)).to_not be_nil
       expect(assigns(:new_link)).to be_a_new Link
     end
   end
@@ -61,7 +59,7 @@ RSpec.describe LinksController, type: :controller do
       @link = FactoryGirl.create(:link, active: false)
     end
     it 'sets the link status to active' do
-      post :activate, id: @link, active: true
+      post :toggle_activate, id: @link, active: true
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end
@@ -71,7 +69,7 @@ RSpec.describe LinksController, type: :controller do
     it 'sets the link status to active' do
       link = Link.create(given_url: Faker::Internet.url,
                          slug: Faker::Internet.slug)
-      post :deactivate, id: link.id, active: false
+      post :toggle_activate, id: link.id, active: false
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end

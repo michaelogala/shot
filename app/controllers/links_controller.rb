@@ -6,14 +6,11 @@ class LinksController < ApplicationController
                                     :show,
                                     :update,
                                     :destroy,
-                                    :activate,
-                                    :deactivate
+                                    :toggle_activate
                                   ]
 
   def index
-    @recent_links = Link.newest_first
-    @popular_links = Link.popular
-    @influential_users = User.top_users
+    @index_presenter = Index::IndexPresenter.new
     @new_link = Link.new
   end
 
@@ -38,17 +35,11 @@ class LinksController < ApplicationController
     end
   end
 
-  def activate
-    @link.update_attributes(active: true)
-    flash[:notice] = link_activated
+  def toggle_activate
+    flash[:notice] = link_deactivated
+    flash[:notice] = link_activated if params[:active] == 'true'
+    @link.update_attributes(active: params[:active])
     redirect_to :back
-  end
-
-  def deactivate
-    if @link.update_attributes(active: false)
-      flash[:notice] = link_deactivated
-      redirect_to :back
-    end
   end
 
   def destroy
@@ -57,7 +48,7 @@ class LinksController < ApplicationController
     redirect_to dashboard_path
   end
 
-  private
+private
 
   def link_params
     params.require(:link).permit(:given_url, :slug, :active, :id)

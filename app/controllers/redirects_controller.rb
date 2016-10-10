@@ -9,7 +9,7 @@ class RedirectsController < ApplicationController
     link = Link.find_by(slug: params[:slug])
     return render 'deleted' unless link
     if link.active?
-      visit_and_update(link)
+      redirect_and_update(link)
     else
       render 'inactive'
     end
@@ -18,9 +18,9 @@ class RedirectsController < ApplicationController
   def deleted
   end
 
-  private
+private
 
-  def visit_and_update(link)
+  def redirect_and_update(link)
     if redirect_to link.given_url
       link.visits << Visit.new(visit_params(request))
       link.update_attributes(clicks: link.clicks + 1)
