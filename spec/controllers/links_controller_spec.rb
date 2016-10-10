@@ -61,7 +61,7 @@ RSpec.describe LinksController, type: :controller do
       @link = FactoryGirl.create(:link, active: false)
     end
     it 'sets the link status to active' do
-      post :activate, id: @link, active: true
+      post :toggle_activate, id: @link, active: true
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end
@@ -71,7 +71,7 @@ RSpec.describe LinksController, type: :controller do
     it 'sets the link status to active' do
       link = Link.create(given_url: Faker::Internet.url,
                          slug: Faker::Internet.slug)
-      post :deactivate, id: link.id, active: false
+      post :toggle_activate, id: link.id, active: false
       expect(response.status).to eq 302
       expect(flash[:notice]).to be_present
     end

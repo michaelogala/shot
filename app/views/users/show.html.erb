@@ -45,8 +45,8 @@
             &nbsp;&nbsp;
 
             <%= link_to "<span class='glyphicon glyphicon-trash'></span> Delete".html_safe,
-             {controller: :links, action: :destroy, id: @link.id}, class: 'btn btn-orange-outline btn-xs',
-              method: :delete, data: {confirm: "Sure to delete?"} %>
+             { controller: :links, action: :destroy, id: @link.id }, class: 'btn btn-orange-outline btn-xs',
+              method: :delete, data: { confirm: "Sure to delete?" } %>
             </div>
           </td>
         </tr>
@@ -58,11 +58,11 @@
             Status: &nbsp;&nbsp;<%= @link.active? ? "Active" : "Deactivated" %>
             &nbsp;&nbsp;
             <% if @link.active? %>
-              <%= link_to "Deactivate", {controller: :links, action: :deactivate, id: @link.id},
-                class: 'btn btn-orange-outline btn-xs', method: :post %>
+              <%= link_to "Deactivate", { controller: :links, action: :toggle_activate, id: @link.id, active: false },
+                class: 'btn btn-orange-outline btn-xs', method: :patch %>
             <% else %>
-              <%= link_to "Activate", {controller: :links, action: :activate, id: @link.id},
-                class: 'btn btn-orange-outline btn-xs', method: :post %>
+              <%= link_to "Activate", { controller: :links, action: :toggle_activate, id: @link.id, active: true },
+                class: 'btn btn-orange-outline btn-xs', method: :patch %>
             <% end %>
           </td>
         </tr>

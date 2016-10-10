@@ -6,8 +6,7 @@ class LinksController < ApplicationController
                                     :show,
                                     :update,
                                     :destroy,
-                                    :activate,
-                                    :deactivate
+                                    :toggle_activate
                                   ]
 
   def index
@@ -38,17 +37,11 @@ class LinksController < ApplicationController
     end
   end
 
-  def activate
-    @link.update_attributes(active: true)
-    flash[:notice] = link_activated
+  def toggle_activate
+    flash[:notice] = link_deactivated
+    flash[:notice] = link_activated if params[:active] == 'true'
+    @link.update_attributes(active: params[:active])
     redirect_to :back
-  end
-
-  def deactivate
-    if @link.update_attributes(active: false)
-      flash[:notice] = link_deactivated
-      redirect_to :back
-    end
   end
 
   def destroy

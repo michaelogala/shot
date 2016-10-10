@@ -16,8 +16,7 @@ Rails.application.routes.draw do
     post '/dashboard/link/new' => :create
     post '/dashboard/link/update/:id' => :update
     delete '/dashboard/link/:id' => :destroy
-    post '/dashboard/link/activate/:id' => :activate
-    post '/dashboard/link/deactivate/:id' => :deactivate
+    patch '/dashboard/link/:id/activate' => :toggle_activate
   end
 
   scope controller: :redirects do

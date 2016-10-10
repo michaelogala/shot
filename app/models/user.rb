@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
   validates :email,       presence: true,
                           length: { maximum: 100 },
                           format: EMAIL_REGEX,
-                          confirmation: true,
                           uniqueness: true
-  validates :password,    length: { minimum: 6 }
+  validates :password,    length: { minimum: 6 },
+                          confirmation: true
   validates :password_confirmation, length: { minimum: 6 },
                                     presence: true
   scope :top_users, -> { order('users.link_count DESC').limit(5) }
