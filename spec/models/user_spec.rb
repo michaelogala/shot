@@ -10,8 +10,11 @@ RSpec.describe User, type: :model do
     it { should validate_length_of :last_name }
     it { should validate_presence_of :email }
     it { should validate_length_of :email }
-    it { should validate_confirmation_of :email }
     it { should validate_presence_of :password }
+    it { should validate_presence_of :password_confirmation }
+    it { should validate_length_of :password }
+    it { should validate_length_of :password_confirmation }
+    it { should validate_confirmation_of :password }
     it { should have_db_index :email }
     it { should have_db_column :link_count }
     it { should have_db_column :password_digest }
