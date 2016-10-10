@@ -11,9 +11,7 @@ RSpec.describe LinksController, type: :controller do
       expect(response).to render_template('index')
     end
     it 'has all valid instance variables' do
-      expect(assigns(:recent_links)).to_not be_nil
-      expect(assigns(:popular_links)).to_not be_nil
-      expect(assigns(:influential_users)).to_not be_nil
+      expect(assigns(:index_presenter)).to_not be_nil
       expect(assigns(:new_link)).to be_a_new Link
     end
   end

@@ -10,9 +10,7 @@ class LinksController < ApplicationController
                                   ]
 
   def index
-    @recent_links = Link.newest_first
-    @popular_links = Link.popular
-    @influential_users = User.top_users
+    @index_presenter = Index::IndexPresenter.new
     @new_link = Link.new
   end
 
