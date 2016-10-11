@@ -40,7 +40,7 @@ RSpec.feature 'IndexPages', type: :feature, js: true do
     fill_in 'user_last_name', with: Faker::Name.last_name
     click_button 'Sign up'
     expect(page.current_path).to eq '/users/sign_up'
-    expect(page).to have_content 'All fields are required'
+    expect(page).to have_content 'can\'t be blank'
   end
 
   scenario 'user attempts to log in with valid details' do
