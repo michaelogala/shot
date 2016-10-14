@@ -13,7 +13,7 @@ RSpec.feature 'IndexPages', type: :feature, js: true do
       visit root_path
       fill_in 'link_given_url', with: 'http://betterspecs.org/'
       click_button 'Shorten'
-      expect(page.current_path).to eq '/'
+      expect(page.current_path).to eq root_path
       expect(page).to have_content 'Link was successfully created'
     end
   end
@@ -29,7 +29,7 @@ RSpec.feature 'IndexPages', type: :feature, js: true do
     fill_in 'user_password', with: password
     fill_in 'user_password_confirmation', with: password
     click_button 'Sign up'
-    expect(page.current_path).to eq '/users/dashboard'
+    expect(page.current_path).to eq dashboard_path
     expect(page).to have_content 'You successfully signed up'
   end
 

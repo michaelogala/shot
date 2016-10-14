@@ -41,6 +41,35 @@ RSpec.describe LinksController, type: :controller do
     end
   end
 
+  describe 'GET #show' do
+    let(:user) { create(:user) }
+    let(:link) { create(:link) }
+
+    context 'if user is signed in' do
+      before do
+        user.links << link
+        session[:id] = user.id
+        get :show, link_id: link.id
+      end
+
+      it 'should display the dashboard' do
+        expect(response).to render_template 'show'
+      end
+
+      it 'should have an array containing my links' do
+        expect(assigns(:links)).to_not be_nil
+        expect(assigns(:link)).to_not be_nil
+      end
+    end
+
+    context 'if user is not signed in' do
+      before { get :show }
+      it 'should redirect to sign in page' do
+        expect(response).to redirect_to sign_in_path
+      end
+    end
+  end
+
   describe '#update' do
     it 'updates link and redirects to HTTP_REFERER' do
       link = Link.create(given_url: Faker::Internet.url,

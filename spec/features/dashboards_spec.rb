@@ -35,7 +35,7 @@ RSpec.feature 'Dashboard', type: :feature do
       fill_in 'link_given_url', with: 'materializecss.com'
       click_button 'Update Link'
     end
-    expect(page.current_path).to eq '/users/dashboard'
+    expect(page.current_path).to eq dashboard_path
     expect(page).to have_content 'Link has been updated'
     expect(page).to have_content @slug
     click_link "/#{@slug}"

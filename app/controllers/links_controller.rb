@@ -1,7 +1,7 @@
 class LinksController < ApplicationController
-  include Concerns::Utility
   before_action :confirm_logged_in, except: [:index, :create]
-  before_action :find_link, except: [:index, :create]
+  before_action :find_link, except: [:index, :create, :show]
+  layout 'dashboard', only: [:show]
 
   def index
     @index_presenter = Index::IndexPresenter.new
@@ -17,6 +17,11 @@ class LinksController < ApplicationController
       flash[:error] = new_link_error
       redirect_to :back
     end
+  end
+
+  def show
+    @links = Link.find_links_for_user(current_user)
+    @link = Link.find_by_id(params[:link_id])
   end
 
   def update

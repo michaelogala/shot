@@ -11,6 +11,14 @@ class Link < ActiveRecord::Base
   validates :slug,      uniqueness: true
   before_save :generate_slug, :sanitize_slug
 
+  def self.find_links_for_user(user)
+    Link.where(user_id: user.id)
+  end
+
+  def self.find_by_id(id)
+    Link.find_by(id: id)
+  end
+
   def scrape_title
     self.title = Mechanize.new.get(given_url).title
     save

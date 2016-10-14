@@ -6,9 +6,11 @@ RSpec.describe UsersController, type: :controller do
     before do
       get :new
     end
-    context 'when signing up' do
-      it { should render_template 'new' }
-      it 'should have a valid instance variable' do
+    context 'when i try to sign up' do
+      it 'should display the sign up form' do
+        expect(response).to render_template 'new'
+      end
+      it 'should have the user instance variable set' do
         expect(assigns(:user)).to be_a_new User
       end
     end
@@ -17,22 +19,32 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create' do
 
     context 'with valid params' do
-      it 'should create a user' do
-        expect do
-          post :create, user: attributes_for(:user)
-        end.to change(User, :count).by 1
+      let!(:initial_db_count) { User.count }
+      before { post :create, user: attributes_for(:user) }
+
+      it 'should persist the new user to database' do
+        expect(User.count).to eq (initial_db_count + 1)
+      end
+
+      it 'should have a flash notice' do
         expect(flash[:notice]).to be_present
-        expect(response.status).to eq 302
+      end
+
+      it 'should redirect the user to dashboard' do
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'should set a valid session' do
         expect(session[:id]).to_not be_nil
       end
     end
 
     context 'with invalid params' do
       before { post :create, user: attributes_for(:user, password: nil) }
-      let!(:db_count) { User.count }
+      let!(:initial_db_count) { User.count }
 
-      it 'doesn\'t persist to the database' do
-        expect(User.count).to eq db_count
+      it 'should not persist to the database' do
+        expect(User.count).to eq initial_db_count
       end
 
       it 'should display the sign up page again' do
@@ -44,25 +56,4 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
-
-  describe '#show' do
-    before do
-      user = FactoryGirl.create(:user)
-      link = FactoryGirl.create(:link)
-      user.links << link
-      session[:id] = user.id
-      get :show, link_id: link.id
-    end
-
-    context 'visit dashboard' do
-      it 'should render template \'show\'' do
-        expect(response).to render_template 'show'
-      end
-      it 'should have valid instance variables' do
-        expect(assigns(:links)).to_not be_nil
-        expect(assigns(:link)).to_not be_nil
-      end
-    end
-  end
-
 end

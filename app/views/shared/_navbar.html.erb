@@ -11,12 +11,12 @@
   </div>
 
   <ul class="nav navbar-nav navbar-right">
-    <% if @user %>
+    <% if current_user %>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle text-white text-lg" data-toggle="dropdown"
          role="button" aria-haspopup="true" aria-expanded="false">
           <span class="glyphicon glyphicon-user"></span>&nbsp;
-          <%= @user.first_name %> <span class="caret"></span></a>
+          <%= current_user.first_name %> <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><%= link_to "Dashboard", dashboard_path %></li>
           <li role="separator" class="divider"></li>

@@ -2,7 +2,6 @@ Rails.application.routes.draw do
   root 'links#index'
 
   scope controller: :users do
-    get '/users/dashboard' => :show, as: :dashboard
     post 'users/create' => :create, as: :new_user
     get 'users/sign_up' => :new, as: :sign_up
   end
@@ -10,6 +9,7 @@ Rails.application.routes.draw do
   scope controller: :links do
     get '/' => :index
     post '/dashboard/link/new' => :create
+    get '/dashboard' => :show, as: :dashboard
     post '/dashboard/link/:id/update' => :update
     delete '/dashboard/:id/link' => :destroy
     patch '/dashboard/link/:id/activate' => :toggle_activate
