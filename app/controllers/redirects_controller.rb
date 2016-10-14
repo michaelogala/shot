@@ -1,3 +1,4 @@
+# get rid of this class and move actions to link controller
 class RedirectsController < ApplicationController
   include RedirectsHelper
   layout false
@@ -18,7 +19,7 @@ class RedirectsController < ApplicationController
   def deleted
   end
 
-private
+  private
 
   def redirect_and_update(link)
     if redirect_to link.given_url

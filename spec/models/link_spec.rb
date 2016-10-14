@@ -12,7 +12,6 @@ RSpec.describe Link, type: :model do
   context 'Validations' do
     subject { Link.new(given_url: 'http://youtube.com') }
     it { should validate_presence_of :given_url }
-    it { should validate_presence_of :slug }
     it { should validate_uniqueness_of :slug }
 
     it { should have_db_column :slug }

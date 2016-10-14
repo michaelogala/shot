@@ -3,7 +3,7 @@
   <div class="col-lg-6 col-lg-offset-3" style="background-color: white; padding: 15px;">
     <h2 class="text-center">Log In</h2>
     <hr>
-    <%= form_for :user, url: { action: 'attempt_login'}  do |f| %>
+    <%= form_for :session, url: { action: 'create'}  do |f| %>
       <div class="form-group">
         <%= f.label :email, class: 'control-label' %>
         <%= f.email_field :email, autofocus: true , class: 'form-control' %>

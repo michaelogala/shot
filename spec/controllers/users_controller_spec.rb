@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
-  describe '#new' do
+  describe 'GET #new' do
     before do
       get :new
     end
@@ -14,7 +14,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#create' do
+  describe 'POST #create' do
 
     context 'with valid params' do
       it 'should create a user' do
@@ -27,21 +27,20 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    context 'without password' do
-      it 'should fail to create a user' do
-        expect do
-          post :create, user: attributes_for(:user, password: nil)
-        end.to_not change(User, :count)
-        expect(response.status).to eq 302
-      end
-    end
+    context 'with invalid params' do
+      before { post :create, user: attributes_for(:user, password: nil) }
+      let!(:db_count) { User.count }
 
-    context 'without email' do
-      it 'should fail to create a user' do
-        expect do
-          post :create, user: attributes_for(:user, email: nil)
-        end.to_not change(User, :count)
-        expect(response.status).to eq 302
+      it 'doesn\'t persist to the database' do
+        expect(User.count).to eq db_count
+      end
+
+      it 'should display the sign up page again' do
+        expect(response).to render_template 'new'
+      end
+
+      it 'should have a flash message indicating the error' do
+        expect(flash[:notice]).to_not be_nil
       end
     end
   end
@@ -66,48 +65,4 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#sign_in' do
-    before { get :sign_in }
-    context 'when signing in' do
-      it { should render_template 'sign_in' }
-    end
-  end
-
-  describe '#attempt_login' do
-    before do
-      user = create(:user)
-      post :attempt_login, user: attributes_for(:user)
-    end
-    context 'with valid params' do
-      it { should set_flash }
-      it { should redirect_to dashboard_path }
-      it 'should have valid session' do
-        expect(session[:id]).to_not be_nil
-      end
-    end
-  end
-
-  describe '#sign_in' do
-    context 'with invalid params' do
-      before do
-        post :attempt_login, user: attributes_for(:user, email: nil)
-      end
-      it { should set_flash }
-      it { should render_template 'sign_in' }
-      it 'should not have a session' do
-        expect(session[:id]).to be_nil
-      end
-    end
-  end
-
-  describe '#sign_out' do
-    before { get :sign_out }
-    context 'when signing out' do
-      it { should redirect_to root_path }
-      it { should set_flash }
-      it 'should invalidate the session' do
-        expect(session[:id]).to be_nil
-      end
-    end
-  end
 end

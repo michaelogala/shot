@@ -39,30 +39,31 @@ RSpec.feature 'IndexPages', type: :feature, js: true do
     fill_in 'user_first_name', with: Faker::Name.first_name
     fill_in 'user_last_name', with: Faker::Name.last_name
     click_button 'Sign up'
-    expect(page.current_path).to eq '/users/sign_up'
+    expect(page.current_path).to eq new_user_path
     expect(page).to have_content 'All fields are required'
   end
 
   scenario 'user attempts to log in with valid details' do
     sign_up
-    visit log_out_path
+    visit sign_out_path
     visit root_path
     click_link 'Sign In'
-    fill_in 'user_email', with: @email
-    fill_in 'user_password', with: @password
+    fill_in 'session_email', with: @email
+    fill_in 'session_password', with: @password
     click_button 'Log in'
     expect(page).to have_content 'Login Successful'
+    expect(page.current_path).to eq dashboard_path
   end
 
   scenario 'user attempts to log in with invalid credentials' do
     sign_up
-    visit log_out_path
+    visit sign_out_path
     visit root_path
     click_link 'Sign In'
-    fill_in 'user_email', with: 'nobody@anywhere.com'
-    fill_in 'user_password', with: 'somepass'
+    fill_in 'session_email', with: 'nobody@anywhere.com'
+    fill_in 'session_password', with: 'somepass'
     click_button 'Log in'
-    expect(page.current_path).to eq '/users/login'
+    expect(page.current_path).to eq log_in_path
     expect(page).to have_content 'Invalid username/password combination'
   end
 end
