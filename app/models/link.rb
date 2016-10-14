@@ -35,4 +35,9 @@ class Link < ActiveRecord::Base
   def display_slug
     ENV['BASE_URL'] + slug
   end
+
+  def add_visit_info(visit)
+    visits << visit
+    update_attributes(clicks: clicks + 1)
+  end
 end

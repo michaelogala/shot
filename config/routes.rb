@@ -7,16 +7,12 @@ Rails.application.routes.draw do
   end
 
   scope controller: :links do
-    get '/' => :index
     post '/dashboard/link/new' => :create
     get '/dashboard' => :show, as: :dashboard
     post '/dashboard/link/:id/update' => :update
     delete '/dashboard/:id/link' => :destroy
     patch '/dashboard/link/:id/activate' => :toggle_activate
-  end
-
-  scope controller: :redirects do
-    get '/:slug' => :show
+    get '/:slug' => :redirect
     get '/link/inactive' => :inactive
     get '/link/deleted' => :deleted
   end

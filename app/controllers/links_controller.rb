@@ -1,6 +1,8 @@
 class LinksController < ApplicationController
-  before_action :confirm_logged_in, except: [:index, :create]
-  before_action :find_link, except: [:index, :create, :show]
+  before_action :confirm_logged_in,
+                except: [:index, :create, :redirect, :inactive, :deleted]
+  before_action :find_link,
+                except: [:index, :create, :show, :redirect, :inactive, :deleted]
   layout 'dashboard', only: [:show]
 
   def index
@@ -22,6 +24,22 @@ class LinksController < ApplicationController
   def show
     @links = Link.find_links_for_user(current_user)
     @link = Link.find_by_id(params[:link_id])
+  end
+
+  def redirect
+    link = Link.find_by(slug: params[:slug])
+    return render 'deleted' unless link
+    return render 'inactive' unless link.active?
+    link.add_visit_info(visit_params)
+    redirect_to link.given_url
+  end
+
+  def inactive
+    render layout: false
+  end
+
+  def deleted
+    render layout: false
   end
 
   def update
@@ -52,10 +70,6 @@ class LinksController < ApplicationController
     params.require(:link).permit(:given_url, :slug, :active, :id)
   end
 
-  def set_link
-    @link = Link.find_by(slug: params[:slug])
-  end
-
   def find_link
     @link = Link.find(params[:id])
   end
@@ -65,5 +79,9 @@ class LinksController < ApplicationController
     flash[:slug] = @link.slug
     flash[:notice] = new_link_success
     redirect_to :back
+  end
+
+  def visit_params
+    Visit.new(BrowserService.new(request).browser_params)
   end
 end
