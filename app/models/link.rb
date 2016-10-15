@@ -5,7 +5,6 @@ class Link < ActiveRecord::Base
 
   scope :newest_first, -> { order("links.created_at DESC").limit(5) }
   scope :popular, -> { order("links.clicks DESC").limit(5) }
-  scope :find_url, -> { select('given_url').where(slug: :slug) }
 
   validates :given_url, presence: true
   validates :slug,      uniqueness: true
@@ -21,7 +20,6 @@ class Link < ActiveRecord::Base
 
   def scrape_title
     self.title = Mechanize.new.get(given_url).title
-    save
   end
 
   def generate_slug

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
 
-  describe '#index' do
+  describe 'GET #index' do
     before do
       get :index
     end
@@ -10,29 +10,29 @@ RSpec.describe LinksController, type: :controller do
     it 'renders the index template' do
       expect(response).to render_template('index')
     end
-    it 'has all valid instance variables' do
+    it 'has a valid presenter instance set' do
       expect(assigns(:index_presenter)).to_not be_nil
       expect(assigns(:new_link)).to be_a_new Link
     end
   end
 
-  describe '#create' do
+  describe 'POST #create' do
     before do
       request.env['HTTP_REFERER'] = '/dashboard'
     end
     context 'with valid parameters' do
-      it 'should succeed and redirect back' do
+      it 'should create a link and redirect to dashboard' do
         expect do
           post :create, link: attributes_for(:link)
         end.to change(Link, :count).by 1
         expect(flash[:notice]).to be_present
         expect(flash[:link]).to be_present
-        expect(response.status).to eq(302)
+        expect(response).to redirect_to dashboard_path
       end
     end
 
     context 'with invalid parameters' do
-      it 'should fail' do
+      it 'should fail to create a link and render the index page again' do
         expect do
           post :create, link: attributes_for(:link, given_url: nil)
         end.to_not change(Link, :count)
@@ -70,87 +70,117 @@ RSpec.describe LinksController, type: :controller do
     end
   end
 
-  describe '#update' do
-    it 'updates link and redirects to HTTP_REFERER' do
-      link = Link.create(given_url: Faker::Internet.url,
-                         slug: Faker::Internet.slug)
-      post :update, id: link.id,
-                    slug: 'some',
-                    given_url: link.given_url,
-                    active: true
-      expect(response.status).to eq 302
-      expect(flash[:notice]).to be_present
+  describe 'PATCH #update' do
+    let(:link) { create(:link) }
+    let(:user) { create(:user) }
+
+    context 'if user has a valid session' do
+      before do
+        request.env['HTTP_REFERER'] = dashboard_path
+        session[:id] = user.id
+        patch :update, id: link.id, link: { slug: 'some' }
+      end
+
+      it 'updates link and goes back to dashboard' do
+        expect(response).to redirect_to dashboard_path
+        expect(flash[:notice]).to be_present
+      end
     end
   end
 
-  describe '#activate' do
+  describe 'PATCH #toggle_activate' do
+    let(:link) { create(:link) }
+    let(:user) { create(:user) }
+    before { request.env['HTTP_REFERER'] = dashboard_path }
+    describe 'disabling a link' do
+      context 'when user is signed in' do
+        before do
+          session[:id] = user.id
+          patch :toggle_activate, id: link, active: false
+        end
+
+        it 'sets the link status to inactive' do
+          expect(response).to redirect_to dashboard_path
+          expect(flash[:notice]).to be_present
+        end
+      end
+    end
+
+    describe 'activating a link' do
+      before { link.active = false }
+      context 'when user is signed in' do
+        before do
+          session[:id] = user.id
+          patch :toggle_activate, id: link.id, active: true
+        end
+        it 'set the link status active' do
+          expect(response).to redirect_to dashboard_path
+          expect(flash[:notice]).to be_present
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:link) { create(:link) }
+    let(:user) { create(:user) }
     before do
-      @link = FactoryGirl.create(:link, active: false)
-    end
-    it 'sets the link status to active' do
-      post :toggle_activate, id: @link, active: true
-      expect(response.status).to eq 302
-      expect(flash[:notice]).to be_present
-    end
-  end
-
-  describe '#deactivate' do
-    it 'sets the link status to active' do
-      link = Link.create(given_url: Faker::Internet.url,
-                         slug: Faker::Internet.slug)
-      post :toggle_activate, id: link.id, active: false
-      expect(response.status).to eq 302
-      expect(flash[:notice]).to be_present
-    end
-  end
-
-  describe '#destroy' do
-    it 'removes the link from db' do
-      link = Link.create(given_url: Faker::Internet.url,
-                         slug: Faker::Internet.slug)
+      session[:id] = user.id
       delete :destroy, id: link.id
-      expect(response.status).to eq 302
+    end
+
+    it 'removes the link from db' do
+      expect(response).to redirect_to dashboard_path
       expect(flash[:notice]).to be_present
     end
   end
-  describe '#inactive' do
+
+  describe 'GET #inactive' do
     before { get :inactive }
     it { should render_template 'inactive' }
   end
 
-  describe '#deleted' do
+  describe 'GET #deleted' do
     before { get :deleted }
     it { should render_template 'deleted' }
   end
 
-  describe '#show' do
+  describe 'GET #redirect' do
+    let(:link) { create(:link) }
+
     context 'with a valid slug' do
-      it 'redirects successfully' do
-        link = Link.create(given_url: Faker::Internet.url,
-                           slug: Faker::Internet.slug)
-        get :redirect, slug: link.slug
-        expect(response.status).to eq 302
-        link.reload
-        expect(link.visits.count).to eq 1
-        expect(link.clicks).to eq 1
+      before { get :redirect, slug: link.slug }
+
+      it 'redirects to the original url' do
+        expect(response).to redirect_to link.given_url
       end
+
+      it 'should persist the visit data to db' do
+        expect(link.reload.visits.count).to eq 1
+      end
+
+      it 'increases the link\'s click count' do
+        expect(link.reload.clicks).to eq 1
+      end
+
     end
 
     context 'with an invalid slug' do
-      it 'renders deleted' do
-        get :redirect, slug: 'xxx'
+      before { get :redirect, slug: 'xxx' }
+      it 'renders a page showing that the link doesn\'t exist' do
         expect(response).to render_template 'deleted'
-        expect(response.status).to eq 200
       end
     end
 
     context 'when link is not active' do
-      link2 = Link.create(given_url: 'http://andela.com',
-                          slug: Faker::Internet.slug, active: false)
-      it 'renders inactive' do
-        get :redirect, slug: link2.slug
+      before do
+        link.active = false
+        link.save
+        get :redirect, slug: link.slug
+      end
+
+      it 'renders a page showing that link is inactive' do
         expect(response).to render_template 'inactive'
-        expect(response.status).to eq 200
       end
     end
   end
