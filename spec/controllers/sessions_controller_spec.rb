@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
   describe 'GET #new' do
     before { get :new }
-    it { should render_template 'new' }
+    it { is_expected.to render_template 'new' }
     it 'should have a new user instance' do
       expect(assigns(:user)).to be_a_new User
     end
@@ -17,7 +17,7 @@ RSpec.describe SessionsController, type: :controller do
         post :create, session: { email: user.email, password: user.password }
       end
 
-      it 'should have a valid session' do
+      it 'should set a valid session' do
         expect(session[:id]).to eq user.id
       end
 

@@ -45,7 +45,7 @@ RSpec.describe LinksController, type: :controller do
     let(:user) { create(:user) }
     let(:link) { create(:link) }
 
-    context 'if user is signed in' do
+    context 'when user is signed in' do
       before do
         user.links << link
         session[:id] = user.id
@@ -62,7 +62,7 @@ RSpec.describe LinksController, type: :controller do
       end
     end
 
-    context 'if user is not signed in' do
+    context 'when user is not signed in' do
       before { get :show }
       it 'should redirect to sign in page' do
         expect(response).to redirect_to sign_in_path
@@ -74,7 +74,7 @@ RSpec.describe LinksController, type: :controller do
     let(:link) { create(:link) }
     let(:user) { create(:user) }
 
-    context 'if user has a valid session' do
+    context 'when user has a valid session' do
       before do
         request.env['HTTP_REFERER'] = dashboard_path
         session[:id] = user.id
@@ -92,7 +92,9 @@ RSpec.describe LinksController, type: :controller do
     let(:link) { create(:link) }
     let(:user) { create(:user) }
     before { request.env['HTTP_REFERER'] = dashboard_path }
+
     describe 'disabling a link' do
+
       context 'when user is signed in' do
         before do
           session[:id] = user.id
@@ -108,11 +110,13 @@ RSpec.describe LinksController, type: :controller do
 
     describe 'activating a link' do
       before { link.active = false }
+
       context 'when user is signed in' do
         before do
           session[:id] = user.id
           patch :toggle_activate, id: link.id, active: true
         end
+
         it 'set the link status active' do
           expect(response).to redirect_to dashboard_path
           expect(flash[:notice]).to be_present
