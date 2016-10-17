@@ -13,13 +13,8 @@ class UsersController < ApplicationController
       session[:id] = @user.id
       redirect_to dashboard_path, notice: new_user
     else
-<<<<<<< HEAD
       flash.now[:notice] = sign_up_error
       render 'new'
-=======
-      flash[:notice] = @user.errors.full_messages.to_sentence
-      redirect_to action: 'new'
->>>>>>> 2c97899c8c9b85aead56857ddc1d9718e4f6800d
     end
   end
 
