@@ -7,10 +7,10 @@ RSpec.describe UsersController, type: :controller do
       get :new
     end
     context 'when i try to sign up' do
-      it 'should display the sign up form' do
+      it 'displays the sign up form' do
         expect(response).to render_template 'new'
       end
-      it 'should have the user instance variable set' do
+      it 'has the user instance variable set' do
         expect(assigns(:user)).to be_a_new User
       end
     end
@@ -22,19 +22,19 @@ RSpec.describe UsersController, type: :controller do
       let!(:initial_db_count) { User.count }
       before { post :create, user: attributes_for(:user) }
 
-      it 'should persist the new user to database' do
+      it 'persists the new user to database' do
         expect(User.count).to eq (initial_db_count + 1)
       end
 
-      it 'should have a flash notice' do
+      it 'has a flash notice' do
         expect(flash[:notice]).to be_present
       end
 
-      it 'should redirect the user to dashboard' do
+      it 'redirects the user to dashboard' do
         expect(response).to redirect_to dashboard_path
       end
 
-      it 'should set a valid session' do
+      it 'sets a valid session' do
         expect(session[:id]).to_not be_nil
       end
     end
@@ -43,15 +43,15 @@ RSpec.describe UsersController, type: :controller do
       before { post :create, user: attributes_for(:user, password: nil) }
       let!(:initial_db_count) { User.count }
 
-      it 'should not persist to the database' do
+      it 'does not persist to the database' do
         expect(User.count).to eq initial_db_count
       end
 
-      it 'should display the sign up page again' do
+      it 'displays the sign up page again' do
         expect(response).to render_template 'new'
       end
 
-      it 'should have a flash message indicating the error' do
+      it 'has a flash message indicating the error' do
         expect(flash[:notice]).to_not be_nil
       end
     end

@@ -21,7 +21,7 @@ RSpec.describe LinksController, type: :controller do
       request.env['HTTP_REFERER'] = '/dashboard'
     end
     context 'with valid parameters' do
-      it 'should create a link and redirect to dashboard' do
+      it 'creates a link and redirect to dashboard' do
         expect do
           post :create, link: attributes_for(:link)
         end.to change(Link, :count).by 1
@@ -32,7 +32,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     context 'with invalid parameters' do
-      it 'should fail to create a link and render the index page again' do
+      it 'fails to create a link and render the index page again' do
         expect do
           post :create, link: attributes_for(:link, given_url: nil)
         end.to_not change(Link, :count)
@@ -52,11 +52,11 @@ RSpec.describe LinksController, type: :controller do
         get :show, link_id: link.id
       end
 
-      it 'should display the dashboard' do
+      it 'displays the dashboard' do
         expect(response).to render_template 'show'
       end
 
-      it 'should have an array containing my links' do
+      it 'has an array containing my links' do
         expect(assigns(:links)).to_not be_nil
         expect(assigns(:link)).to_not be_nil
       end
@@ -64,7 +64,7 @@ RSpec.describe LinksController, type: :controller do
 
     context 'when user is not signed in' do
       before { get :show }
-      it 'should redirect to sign in page' do
+      it 'redirects to sign in page' do
         expect(response).to redirect_to sign_in_path
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe LinksController, type: :controller do
           patch :toggle_activate, id: link.id, active: true
         end
 
-        it 'set the link status active' do
+        it 'sets the link status active' do
           expect(response).to redirect_to dashboard_path
           expect(flash[:notice]).to be_present
         end
@@ -141,12 +141,12 @@ RSpec.describe LinksController, type: :controller do
 
   describe 'GET #inactive' do
     before { get :inactive }
-    it { should render_template 'inactive' }
+    it { is_expected.to render_template 'inactive' }
   end
 
   describe 'GET #deleted' do
     before { get :deleted }
-    it { should render_template 'deleted' }
+    it { is_expected.to render_template 'deleted' }
   end
 
   describe 'GET #redirect' do
@@ -159,7 +159,7 @@ RSpec.describe LinksController, type: :controller do
         expect(response).to redirect_to link.given_url
       end
 
-      it 'should persist the visit data to db' do
+      it 'persists the visit data to db' do
         expect(link.reload.visits.count).to eq 1
       end
 
@@ -178,8 +178,7 @@ RSpec.describe LinksController, type: :controller do
 
     context 'when link is not active' do
       before do
-        link.active = false
-        link.save
+        link.update_attributes(active: false)
         get :redirect, slug: link.slug
       end
 

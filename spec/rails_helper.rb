@@ -66,26 +66,3 @@ RSpec.configure do |config|
     end
   end
 end
-
-def sign_up
-  setup_params
-  visit root_path
-  click_link 'Sign Up'
-  fill_signup_form
-end
-
-def setup_params
-  @password = Faker::Internet.password(8)
-  @first_name = Faker::Name.first_name
-  @last_name = Faker::Name.last_name
-  @email = Faker::Internet.email
-end
-
-def fill_signup_form
-  fill_in 'user_first_name', with: @first_name
-  fill_in 'user_last_name', with: @last_name
-  fill_in 'user_email', with: @email
-  fill_in 'user_password', with: @password
-  fill_in 'user_password_confirmation', with: @password
-  click_button 'Sign up'
-end
