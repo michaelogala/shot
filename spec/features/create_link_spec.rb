@@ -26,7 +26,7 @@ RSpec.feature "User creates a shortened url", type: :feature do
 
   scenario 'when user is signed in and provides a slug' do
     url = Faker::Internet.url
-    slug  = Faker::Internet.slug
+    slug = Faker::Internet.slug
 
     sign_up
     visit dashboard_path

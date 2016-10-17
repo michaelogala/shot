@@ -42,7 +42,7 @@ RSpec.describe Link, type: :model do
     end
 
     describe '#generate_slug' do
-      before{ link.generate_slug }
+      before { link.generate_slug }
       it 'has a valid slug' do
         expect(link.slug).to_not be_nil
       end
@@ -51,7 +51,7 @@ RSpec.describe Link, type: :model do
     describe '#display_slug' do
       before { link.save }
       it 'returns the full path with a slug' do
-        expect(link.display_slug).to eq (ENV['BASE_URL'] + link.slug.to_s)
+        expect(link.display_slug).to eq ENV['BASE_URL'] + link.slug.to_s
       end
     end
 

@@ -43,7 +43,7 @@ RSpec.feature "User manages link", type: :feature do
 
     expect(page).to have_content 'Link has been updated'
     click_link "/modified"
-    expect(page).to have_content (ENV['BASE_URL'] + 'modified')
+    expect(page).to have_content ENV['BASE_URL'] + 'modified'
   end
 
   scenario 'when user deactivates a link' do

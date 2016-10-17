@@ -23,7 +23,7 @@ RSpec.describe UsersController, type: :controller do
       before { post :create, user: attributes_for(:user) }
 
       it 'persists the new user to database' do
-        expect(User.count).to eq (initial_db_count + 1)
+        expect(User.count).to eq initial_db_count + 1
       end
 
       it 'has a flash notice' do

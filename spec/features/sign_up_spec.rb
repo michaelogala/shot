@@ -6,7 +6,7 @@ RSpec.feature "User signs up", type: :feature do
   let(:email) { Faker::Internet.email }
   let(:password) { Faker::Internet.password(8) }
 
-  before (:each) do
+  before :each do
     visit root_path
     click_link 'Sign Up'
   end
