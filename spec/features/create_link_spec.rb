@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'support/users_helper'
 
-RSpec.feature "User creates a shortened url", type: :feature do
-
+RSpec.feature 'User creates a shortened url', type: :feature do
   scenario 'when user is anonymous' do
     visit root_path
 

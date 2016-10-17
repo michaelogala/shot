@@ -166,7 +166,6 @@ RSpec.describe LinksController, type: :controller do
       it 'increases the link\'s click count' do
         expect(link.reload.clicks).to eq 1
       end
-
     end
 
     context 'with an invalid slug' do

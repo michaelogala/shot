@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "User signs up", type: :feature do
+RSpec.feature 'User signs up', type: :feature do
   let(:first_name) { Faker::Name.first_name }
   let(:last_name) { Faker::Name.last_name }
   let(:email) { Faker::Internet.email }
@@ -12,7 +12,6 @@ RSpec.feature "User signs up", type: :feature do
   end
 
   scenario 'with valid credentials' do
-
     fill_in 'user_first_name', with: first_name
     fill_in 'user_last_name', with: last_name
     fill_in 'user_email', with: email

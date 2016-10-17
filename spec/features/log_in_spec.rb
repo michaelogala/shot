@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "User logs in", type: :feature do
+RSpec.feature 'User logs in', type: :feature do
   let(:user) { create(:user) }
   before do
     visit dashboard_path

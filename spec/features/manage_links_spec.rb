@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/users_helper'
 
-RSpec.feature "User manages link", type: :feature do
+RSpec.feature 'User manages link', type: :feature do
   let(:link) { build(:link) }
 
   before do
@@ -42,7 +42,7 @@ RSpec.feature "User manages link", type: :feature do
     end
 
     expect(page).to have_content 'Link has been updated'
-    click_link "/modified"
+    click_link '/modified'
     expect(page).to have_content ENV['BASE_URL'] + 'modified'
   end
 
