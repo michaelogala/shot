@@ -12,4 +12,5 @@ module Index
       User.top_users
     end
   end
+
 end

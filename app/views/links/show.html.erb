@@ -7,7 +7,7 @@
       </div>
       <%if @links %>
         <% @links.each do |link| -%>
-          <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="/users/dashboard?link_id=<%= link.id %>">
+          <a class="list-group-item <%= 'active' if link.id == params['link_id'].to_i %>" href="<%=dashboard_path%>?link_id=<%= link.id %>">
             <h4 class="list-group-item-heading"><%= truncate(link.title, length: 40, omission: '...') -%></h4>
             <p class="list-group-item-text">
               <small class="text-orange"><%= link.display_slug -%></small>

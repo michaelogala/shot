@@ -17,4 +17,10 @@ class User < ActiveRecord::Base
   validates :password_confirmation, length: { minimum: 6 },
                                     presence: true
   scope :top_users, -> { order('users.link_count DESC').limit(5) }
+
+  def add_new_link(link)
+    links << link
+    self.link_count += 1
+    save
+  end
 end

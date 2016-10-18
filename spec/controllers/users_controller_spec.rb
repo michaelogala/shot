@@ -2,111 +2,55 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
-  describe '#new' do
-    before do
-      get :new
-    end
-    context 'when signing up' do
-      it { should render_template 'new' }
-      it 'should have a valid instance variable' do
+  describe 'GET #new' do
+    before { get :new }
+    context 'when user tries to sign up' do
+      it 'displays the sign up form' do
+        expect(response).to render_template 'new'
+      end
+
+      it 'has the user instance variable set' do
         expect(assigns(:user)).to be_a_new User
       end
     end
   end
 
-  describe '#create' do
+  describe 'POST #create' do
+    let!(:initial_db_count) { User.count }
 
     context 'with valid params' do
-      it 'should create a user' do
-        expect do
-          post :create, user: attributes_for(:user)
-        end.to change(User, :count).by 1
+      before { post :create, user: attributes_for(:user) }
+
+      it 'persists the new user to database' do
+        expect(User.count).to eq initial_db_count + 1
+      end
+
+      it 'has a flash notice' do
         expect(flash[:notice]).to be_present
-        expect(response.status).to eq 302
+      end
+
+      it 'redirects the user to dashboard' do
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'sets a valid session' do
         expect(session[:id]).to_not be_nil
       end
     end
 
-    context 'without password' do
-      it 'should fail to create a user' do
-        expect do
-          post :create, user: attributes_for(:user, password: nil)
-        end.to_not change(User, :count)
-        expect(response.status).to eq 302
-      end
-    end
-
-    context 'without email' do
-      it 'should fail to create a user' do
-        expect do
-          post :create, user: attributes_for(:user, email: nil)
-        end.to_not change(User, :count)
-        expect(response.status).to eq 302
-      end
-    end
-  end
-
-  describe '#show' do
-    before do
-      user = FactoryGirl.create(:user)
-      link = FactoryGirl.create(:link)
-      user.links << link
-      session[:id] = user.id
-      get :show, link_id: link.id
-    end
-
-    context 'visit dashboard' do
-      it 'should render template \'show\'' do
-        expect(response).to render_template 'show'
-      end
-      it 'should have valid instance variables' do
-        expect(assigns(:links)).to_not be_nil
-        expect(assigns(:link)).to_not be_nil
-      end
-    end
-  end
-
-  describe '#sign_in' do
-    before { get :sign_in }
-    context 'when signing in' do
-      it { should render_template 'sign_in' }
-    end
-  end
-
-  describe '#attempt_login' do
-    before do
-      user = create(:user)
-      post :attempt_login, user: attributes_for(:user)
-    end
-    context 'with valid params' do
-      it { should set_flash }
-      it { should redirect_to dashboard_path }
-      it 'should have valid session' do
-        expect(session[:id]).to_not be_nil
-      end
-    end
-  end
-
-  describe '#sign_in' do
     context 'with invalid params' do
-      before do
-        post :attempt_login, user: attributes_for(:user, email: nil)
-      end
-      it { should set_flash }
-      it { should render_template 'sign_in' }
-      it 'should not have a session' do
-        expect(session[:id]).to be_nil
-      end
-    end
-  end
+      before { post :create, user: attributes_for(:user, password: nil) }
 
-  describe '#sign_out' do
-    before { get :sign_out }
-    context 'when signing out' do
-      it { should redirect_to root_path }
-      it { should set_flash }
-      it 'should invalidate the session' do
-        expect(session[:id]).to be_nil
+      it 'does not persist to the database' do
+        expect(User.count).to eq initial_db_count
+      end
+
+      it 'displays the sign up page again' do
+        expect(response).to render_template 'new'
+      end
+
+      it 'has a flash message indicating the error' do
+        expect(flash[:notice]).to_not be_nil
       end
     end
   end

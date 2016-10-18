@@ -1,13 +1,9 @@
 class LinksController < ApplicationController
-  include Concerns::Utility
-  before_action :confirm_logged_in, except: [:index, :create]
-  before_action :normalize_params, only: [:update]
-  before_action :find_link, only: [
-                                    :show,
-                                    :update,
-                                    :destroy,
-                                    :toggle_activate
-                                  ]
+  before_action :confirm_logged_in,
+                only: [:show, :update, :toggle_activate, :destroy]
+  before_action :find_link,
+                only: [:update, :toggle_activate, :destroy]
+  layout 'dashboard', only: [:show]
 
   def index
     @index_presenter = Index::IndexPresenter.new
@@ -15,24 +11,44 @@ class LinksController < ApplicationController
   end
 
   def create
-    @link = Link.new(normalize_params)
-    update_current_user(@link)
+    @link = Link.new(link_params)
+    current_user.add_new_link(@link) if current_user
     if @link.save
-      respond_to_save
+      set_flash_and_redirect
     else
       flash[:error] = new_link_error
       redirect_to :back
     end
   end
 
+  def show
+    @links = Link.find_links_for_user(current_user)
+    @link = Link.find_by(id: params[:link_id])
+  end
+
+  def redirect
+    link = Link.find_by(slug: params[:slug])
+    return render 'deleted' unless link
+    return render 'inactive' unless link.active?
+    link.add_visit_info(visit_params)
+    redirect_to link.given_url
+  end
+
+  def inactive
+    render layout: false
+  end
+
+  def deleted
+    render layout: false
+  end
+
   def update
-    if @link.update_attributes(normalize_params)
-      flash[:notice] = link_updated
-      redirect_to :back
-    else
-      flash[:notice] = @link.errors.full_messages.to_sentence
-      redirect_to :back
-    end
+    flash[:notice] = if @link.update_attributes(link_params)
+                       link_updated
+                     else
+                       @link.errors.full_messages.to_sentence
+                     end
+    redirect_to :back
   end
 
   def toggle_activate
@@ -48,39 +64,24 @@ class LinksController < ApplicationController
     redirect_to dashboard_path
   end
 
-private
+  private
 
   def link_params
     params.require(:link).permit(:given_url, :slug, :active, :id)
-  end
-
-  def set_link
-    @link = Link.find_by(slug: params[:slug])
   end
 
   def find_link
     @link = Link.find(params[:id])
   end
 
-  def update_current_user(link)
-    if current_user
-      current_user.links << link
-      current_user.link_count += 1
-      current_user.save
-    end
-  end
-
-  def normalize_params
-    params = link_params
-    params[:slug] = SecureRandom.urlsafe_base64(4) if params[:slug].blank?
-    params[:slug] = params[:slug].tr(' ', '-')
-    params
-  end
-
-  def respond_to_save
+  def set_flash_and_redirect
     flash[:link] = @link.display_slug
     flash[:slug] = @link.slug
     flash[:notice] = new_link_success
     redirect_to :back
+  end
+
+  def visit_params
+    Visit.new(BrowserService.new(request).browser_params)
   end
 end

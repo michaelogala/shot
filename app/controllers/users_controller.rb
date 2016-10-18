@@ -10,39 +10,17 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:notice] = new_user
       session[:id] = @user.id
-      redirect_to dashboard_path
+      redirect_to dashboard_path, notice: new_user
     else
-      flash[:notice] = @user.errors.full_messages.to_sentence
-      redirect_to action: 'new'
+      flash.now[:notice] = sign_up_error
+      render 'new'
     end
   end
 
   def show
     @link = Link.find_by(id: params[:link_id])
     @links = @user.links
-  end
-
-  def sign_in
-  end
-
-  def attempt_login
-    autheticated_user = authenticate(find_user_from_params)
-    if autheticated_user
-      session[:id] = autheticated_user.id
-      flash[:notice] = logged_in
-      redirect_to dashboard_path
-    else
-      flash[:notice] = log_in_error
-      render 'sign_in'
-    end
-  end
-
-  def sign_out
-    session[:id] = nil
-    flash[:notice] = logged_out
-    redirect_to root_path
   end
 
   private
@@ -54,15 +32,5 @@ class UsersController < ApplicationController
 
   def find_user_from_session
     @user = User.find(session[:id])
-  end
-
-  def find_user_from_params
-    if params[:user][:email].present? && params[:user][:password].present?
-      User.where(email: params[:user][:email]).first
-    end
-  end
-
-  def authenticate(user)
-    user.authenticate(params[:user][:password]) if user
   end
 end

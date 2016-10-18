@@ -37,7 +37,7 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
-  #disables concurrency to normalize tests
+  # disables concurrency to normalize tests
   config.allow_concurrency = false
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
