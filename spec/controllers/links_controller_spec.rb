@@ -105,8 +105,8 @@ RSpec.describe LinksController, type: :controller do
     let(:link) { create(:link) }
     let(:user) { create(:user) }
     before do
-       request.env['HTTP_REFERER'] = dashboard_path
-       session[:id] = user.id
+      request.env['HTTP_REFERER'] = dashboard_path
+      session[:id] = user.id
     end
 
     describe 'disabling a link' do
