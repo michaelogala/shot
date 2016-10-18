@@ -3,39 +3,48 @@ require 'rails_helper'
 RSpec.describe LinksController, type: :controller do
 
   describe 'GET #index' do
-    before do
-      get :index
-    end
+    before { get :index }
 
     it 'renders the index template' do
       expect(response).to render_template('index')
     end
+
     it 'has a valid presenter instance set' do
       expect(assigns(:index_presenter)).to_not be_nil
+    end
+
+    it 'has a new link instance' do
       expect(assigns(:new_link)).to be_a_new Link
     end
   end
 
   describe 'POST #create' do
-    before do
-      request.env['HTTP_REFERER'] = '/dashboard'
-    end
+    before { request.env['HTTP_REFERER'] = '/dashboard' }
+    let!(:initial_link_count) { Link.count }
+
     context 'with valid parameters' do
+      before { post :create, link: attributes_for(:link) }
+
       it 'creates a link and redirect to dashboard' do
-        expect do
-          post :create, link: attributes_for(:link)
-        end.to change(Link, :count).by 1
+        expect(Link.count).to eq initial_link_count + 1
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'has a flash containing the link created and a success message' do
         expect(flash[:notice]).to be_present
         expect(flash[:link]).to be_present
-        expect(response).to redirect_to dashboard_path
       end
     end
 
     context 'with invalid parameters' do
-      it 'fails to create a link and render the index page again' do
-        expect do
-          post :create, link: attributes_for(:link, given_url: nil)
-        end.to_not change(Link, :count)
+      before { post :create, link: attributes_for(:link, given_url: nil) }
+
+      it 'fails to create a link and redirects to dashboard' do
+        expect(Link.count).to eq initial_link_count
+        expect(response).to redirect_to dashboard_path
+      end
+
+      it 'has a flash message indicating the error' do
         expect(flash[:error]).to be_present
       end
     end
@@ -56,9 +65,9 @@ RSpec.describe LinksController, type: :controller do
         expect(response).to render_template 'show'
       end
 
-      it 'has an array containing my links' do
-        expect(assigns(:links)).to_not be_nil
-        expect(assigns(:link)).to_not be_nil
+      it 'has an ActiveRecord instance containing my links' do
+        expect(assigns(:links)).to be_an ActiveRecord::Relation
+        expect(assigns(:links)).to include link
       end
     end
 
@@ -82,7 +91,11 @@ RSpec.describe LinksController, type: :controller do
       end
 
       it 'updates link and goes back to dashboard' do
+        expect(link.reload.slug).to eq 'some'
         expect(response).to redirect_to dashboard_path
+      end
+
+      it 'has a flash message indicating successful update' do
         expect(flash[:notice]).to be_present
       end
     end
@@ -91,18 +104,22 @@ RSpec.describe LinksController, type: :controller do
   describe 'PATCH #toggle_activate' do
     let(:link) { create(:link) }
     let(:user) { create(:user) }
-    before { request.env['HTTP_REFERER'] = dashboard_path }
+    before do
+       request.env['HTTP_REFERER'] = dashboard_path
+       session[:id] = user.id
+    end
 
     describe 'disabling a link' do
 
       context 'when user is signed in' do
-        before do
-          session[:id] = user.id
-          patch :toggle_activate, id: link, active: false
+        before { patch :toggle_activate, id: link, active: false }
+
+        it 'sets the link status to inactive and goes to dashboard' do
+          expect(link.reload.active).to eq false
+          expect(response).to redirect_to dashboard_path
         end
 
-        it 'sets the link status to inactive' do
-          expect(response).to redirect_to dashboard_path
+        it 'has a flash message indicating deactivation' do
           expect(flash[:notice]).to be_present
         end
       end
@@ -112,13 +129,14 @@ RSpec.describe LinksController, type: :controller do
       before { link.active = false }
 
       context 'when user is signed in' do
-        before do
-          session[:id] = user.id
-          patch :toggle_activate, id: link.id, active: true
+        before { patch :toggle_activate, id: link.id, active: true }
+
+        it 'sets the link status to active and goes to dashboard' do
+          expect(link.reload.active).to eq true
+          expect(response).to redirect_to dashboard_path
         end
 
-        it 'sets the link status active' do
-          expect(response).to redirect_to dashboard_path
+        it 'has a flash message indicating reactivation' do
           expect(flash[:notice]).to be_present
         end
       end
@@ -133,7 +151,8 @@ RSpec.describe LinksController, type: :controller do
       delete :destroy, id: link.id
     end
 
-    it 'removes the link from db' do
+    it 'removes the link from db and goes to dashboard with a flash notice' do
+      expect(Link.all).to_not include link
       expect(response).to redirect_to dashboard_path
       expect(flash[:notice]).to be_present
     end

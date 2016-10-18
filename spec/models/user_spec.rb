@@ -43,12 +43,6 @@ RSpec.describe User, type: :model do
   describe 'class methods' do
     let(:user) { create(:user) }
 
-    describe '.find_by_email' do
-      it 'returns a user object' do
-        expect(User.find_by_email(user.email)).to eq user
-      end
-    end
-
     describe '.top_users' do
       it 'returns users in order of their link count' do
         expect(User.top_users.order_values).to eq ['users.link_count DESC']

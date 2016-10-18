@@ -29,6 +29,6 @@ class SessionsController < ApplicationController
   def find_user_from_params
     return false unless params[:session][:email].present? &&
                         params[:session][:password].present?
-    User.find_by_email(params[:session][:email])
+    User.find_by(email: params[:session][:email])
   end
 end

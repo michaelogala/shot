@@ -7,8 +7,14 @@ RSpec.feature 'User logs in', type: :feature do
     click_link 'Sign In'
   end
 
-  scenario 'with valid credentials' do
+  scenario 'user sees log in form' do
     expect(page).to have_content 'Log In'
+    expect(page).to have_content 'Email'
+    expect(page).to have_content 'Password'
+    expect(page).to have_button 'Log in'
+  end
+
+  scenario 'with valid credentials' do
     fill_in 'session_email', with: user.email
     fill_in 'session_password', with: user.password
     click_button 'Log in'

@@ -26,9 +26,8 @@ RSpec.feature 'User manages link', type: :feature do
       fill_in 'link_given_url', with: 'materializecss.com'
       click_button 'Update Link'
     end
-
-    expect(page).to have_content 'Link has been updated'
     click_link "/#{link.slug}"
+
     expect(page).to have_content 'materializecss'
   end
 
@@ -41,8 +40,8 @@ RSpec.feature 'User manages link', type: :feature do
       click_button 'Update Link'
     end
 
-    expect(page).to have_content 'Link has been updated'
     click_link '/modified'
+
     expect(page).to have_content ENV['BASE_URL'] + 'modified'
   end
 

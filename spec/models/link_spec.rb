@@ -61,9 +61,11 @@ RSpec.describe Link, type: :model do
         link.save
         link.add_visit_info(visit)
       end
+
       it 'persists the visit info to the link' do
         expect(link.visits.count).to eq 1
       end
+
       it 'increases the link click count by 1' do
         expect(link.clicks).to eq 1
       end
@@ -89,12 +91,6 @@ RSpec.describe Link, type: :model do
       before { user.links << link }
       it 'returns an array of links that belong to a user' do
         expect(Link.find_links_for_user(user)).to eq [link]
-      end
-    end
-
-    describe '.find_by_id' do
-      it 'returns a link object when given a valid id' do
-        expect(Link.find_by_id(link.id)).to eq link
       end
     end
   end

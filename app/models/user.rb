@@ -23,8 +23,4 @@ class User < ActiveRecord::Base
     self.link_count += 1
     save
   end
-
-  def self.find_by_email(email)
-    User.find_by(email: email)
-  end
 end

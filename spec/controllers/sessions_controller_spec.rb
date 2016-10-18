@@ -21,7 +21,7 @@ RSpec.describe SessionsController, type: :controller do
         expect(session[:id]).to eq user.id
       end
 
-      it 'redirect to dashboard' do
+      it 'redirects to dashboard' do
         expect(response).to redirect_to dashboard_path
       end
 

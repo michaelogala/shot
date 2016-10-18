@@ -1,8 +1,8 @@
 class LinksController < ApplicationController
   before_action :confirm_logged_in,
-                except: [:index, :create, :redirect, :inactive, :deleted]
+                only: [:show, :update, :toggle_activate, :destroy]
   before_action :find_link,
-                except: [:index, :create, :show, :redirect, :inactive, :deleted]
+                only: [:update, :toggle_activate, :destroy]
   layout 'dashboard', only: [:show]
 
   def index
@@ -23,7 +23,7 @@ class LinksController < ApplicationController
 
   def show
     @links = Link.find_links_for_user(current_user)
-    @link = Link.find_by_id(params[:link_id])
+    @link = Link.find_by(id: params[:link_id])
   end
 
   def redirect
