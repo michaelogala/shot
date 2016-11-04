@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   #api
   def authenticate_user
     @api_user = User.find_by(id: decode_token[:user_id])
-    render json: { errors: 'Invalid Token' } unless @current_user
+    render json: { errors: 'Invalid Token' } unless @api_user
     rescue JWT::VerificationError, JWT::DecodeError
       render json: { errors: 'Unauthorized Access' }
   end
