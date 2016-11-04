@@ -23,4 +23,12 @@ class User < ActiveRecord::Base
     self.link_count += 1
     save
   end
+
+  def generate_token
+    self.auth_token = JsonWebToken.encode({
+       user_id: id
+      }
+    )
+    save
+  end
 end
