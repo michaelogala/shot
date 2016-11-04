@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  attr_reader :current_user
+  attr_reader :api_user
   private
 
   def confirm_logged_in
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   #api
   def authenticate_user
-    @current_user = User.find_by(id: decode_token[:user_id])
+    @api_user = User.find_by(id: decode_token[:user_id])
     render json: { errors: 'Invalid Token' } unless @current_user
     rescue JWT::VerificationError, JWT::DecodeError
       render json: { errors: 'Unauthorized Access' }
