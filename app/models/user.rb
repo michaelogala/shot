@@ -25,10 +25,10 @@ class User < ActiveRecord::Base
   end
 
   def generate_token
-    self.auth_token = JsonWebToken.encode({
+    auth_token = JsonWebToken.encode({
        user_id: id
       }
     )
-    save
+    update_attribute(:auth_token, auth_token)
   end
 end

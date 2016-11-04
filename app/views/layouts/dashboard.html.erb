@@ -33,6 +33,17 @@
       <% end %>
     </div>
   </div>
+  <div class="well">
+    API KEY: &nbsp;&nbsp;
+    <% if current_user.auth_token.blank? %>
+      <%= link_to 'Generate API KEY', { controller: 'links', action: 'generate_key' }, method: :post, class: 'btn btn-primary' %>
+    <% else %>
+      <%= current_user.auth_token %>
+    <% end %>
+  </div>
+  <% if current_user.errors.any? %>
+  <%= current_user.errors.full_message.to_sentence %>
+  <% end %>
     <%= yield %>
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
