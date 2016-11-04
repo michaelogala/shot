@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   root 'links#index'
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :links
+    end
+  end
+
   scope controller: :users do
     post 'users/create' => :create, as: :new_user
     get 'users/sign_up' => :new, as: :sign_up
