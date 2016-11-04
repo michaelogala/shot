@@ -23,7 +23,7 @@ module Api
 
       def update
         if @link.update_attributes(link_params)
-          render json: link, status: 200
+          render json: @link, status: 200
         else
           render json: { errors: @link.errors }, status: 200
         end
