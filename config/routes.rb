@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     delete '/dashboard/:id/link' => :destroy
     patch '/dashboard/link/:id/activate' => :toggle_activate
     get '/:slug' => :redirect
+    post '/auth_token' => :generate_key
     get '/link/inactive' => :inactive
     get '/link/deleted' => :deleted
   end

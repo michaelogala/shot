@@ -2,10 +2,11 @@ module Api
   module V1
     class LinksController < ApplicationController
       respond_to :json
+      before_action :authenticate_user
       before_action :find_link, only: [:show, :update, :destroy]
 
       def index
-        render json: { links: Link.all }, status: 200
+        render json: { links: api_user.links }, status: 200
       end
 
       def show
@@ -13,12 +14,12 @@ module Api
       end
 
       def create
-        link = Link.new(link_params)
-        if link.save
-          render json: link, status: 200
-        else
-          render json: { error: new_link_error }
+        if params[:given_url].nil?
+          return render json: { error: new_link_error }
         end
+        link = Link.new(link_params)
+        api_user.add_new_link(link)
+        render json: link, status: 200
       end
 
       def update
@@ -46,7 +47,7 @@ module Api
       end
 
       def find_link
-        @link = Link.find_by(id: params[:id])
+        @link = api_user.links.find_by(id: params[:id])
       end
     end
   end

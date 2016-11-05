@@ -118,6 +118,7 @@ GEM
       jsonapi-renderer (= 0.1.1.beta1)
     jsonapi-parser (0.1.1.beta3)
     jsonapi-renderer (0.1.1.beta1)
+    jwt (1.5.6)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.4)
@@ -298,6 +299,7 @@ DEPENDENCIES
   imgkit (~> 1.6, >= 1.6.1)
   jbuilder (~> 2.0)
   jquery-rails
+  jwt
   mechanize
   pg
   phantomjs

@@ -20,7 +20,14 @@ class User < ActiveRecord::Base
 
   def add_new_link(link)
     links << link
-    self.link_count += 1
-    save
+    update_attribute(:link_count, link_count + 1)
+  end
+
+  def generate_token
+    auth_token = JsonWebToken.encode({
+       user_id: id
+      }
+    )
+    update_attribute(:auth_token, auth_token)
   end
 end

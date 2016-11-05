@@ -38,6 +38,14 @@ RSpec.describe User, type: :model do
         expect(user.links.count).to eq 1
       end
     end
+
+    describe '#generate_token' do
+      before { user.generate_token }
+
+      it 'generates a new token and saves' do
+        expect(user.reload.auth_token).to_not be_nil
+      end
+    end
   end
 
   describe 'class methods' do

@@ -58,6 +58,11 @@ class LinksController < ApplicationController
     redirect_to :back
   end
 
+  def generate_key
+    current_user.generate_token
+    redirect_to dashboard_path
+  end
+
   def destroy
     @link.destroy
     flash[:notice] = link_deleted

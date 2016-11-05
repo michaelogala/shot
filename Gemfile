@@ -20,6 +20,7 @@ gem "browser"
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'responders', '~> 2.0'
+gem 'jwt'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
