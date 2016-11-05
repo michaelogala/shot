@@ -14,12 +14,12 @@ module Api
       end
 
       def create
-        link = Link.new(link_params)
-        if link.save
-          render json: link, status: 200
-        else
-          render json: { error: new_link_error }
+        if params[:given_url].nil?
+          return render json: { error: new_link_error }
         end
+        link = Link.new(link_params)
+        api_user.add_new_link(link)
+        render json: link, status: 200
       end
 
       def update
