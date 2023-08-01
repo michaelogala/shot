@@ -2,10 +2,10 @@
 [![Test Coverage](https://codeclimate.com/github/andela-mogala/shot/badges/coverage.svg)](https://codeclimate.com/github/andela-mogala/shot/coverage)
 [![Build Status](https://travis-ci.org/andela-mogala/shot.svg?branch=master)](https://travis-ci.org/andela-mogala/shot)
 
-#TURBO-URL
+# TURBO-URL
 A url shortener that lives on herooku. Created after the order of popular url shorteners like [Bitly](bit.ly), [Tinyurl](tinyurl.com) and [Google shortener](goo.gl). Turbo-url allows you to provide a valid url and shortens that url with a unique slug. It functions by redirecting visitors of the shortened url to the original url and keeping count of the number of hits the link has amassed.
 
-##FEATURES
+## FEATURES
 |FEATURE                |VISITOR  | REGISTERED USER |
 |:----|:---------:|:-----------------:|
 |shorten with slug      | NO      |   YES           |
@@ -20,7 +20,7 @@ A url shortener that lives on herooku. Created after the order of popular url sh
 
 
 
-##DEPENDENCIES
+## DEPENDENCIES
 Turbo-url is built with Ruby on Rails framework. Other important gems include 
 * ruby 2.3.0
 * rails 4.2.7.1
@@ -29,10 +29,10 @@ Turbo-url is built with Ruby on Rails framework. Other important gems include
 * bootstrap-sass 3.3 - for UI
 * jQuery-rails - for a bit of DOM manipulation
 
-##GETTING STARTED
+## GETTING STARTED
 You can simply visit [turbo-url.herokuapp.com](http://turbo-url.herokuapp.com). Then feel free to provide any long url and watch the app return you a shortened version. However to effectively take charge of the behaviour of the links you provide, you should sign up on the app. This gives you extra abilities like being able to disable a link or even edit the original url or the slug.
 
-###DEVELOPER NOTES
+### DEVELOPER NOTES
 Feel free to clone the app and play around with it on your local machine.
 ```
 git clone git@github.com:andela-mogala/shot.git
@@ -55,7 +55,7 @@ bundle exec rake db:setup
 ```
 Finally start the server:
 ```
-rails server -p 30001
+rails server -p 3001
 ```
 Be careful to start the server on port 3001 because that is the default port the app has been configured to work with. You may run into problems if you use a different port.
 
@@ -83,10 +83,10 @@ rspec spec/features
 to see the feature specs.
 
 
-##LIMITATIONS
+## LIMITATIONS
 * The app isn't able to verify if a supplied url actually exists
 * No public API for consumption
 * Due to the fact that the app is hosted on heroku, sometimes the shortened url could be longer than the original url (lol).
 
-##LICENSES
+## LICENSES
 You are free to do whatever you feel like with the app.
