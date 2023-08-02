@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 
-gem 'rails', '4.2.7.1'
-gem 'sass-rails', '~> 5.0'
+gem 'rails', '5.0.7.2'
+gem 'sassc'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
@@ -14,13 +14,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro', '~> 1.1', '>= 1.1.1'
 gem 'imgkit', '~> 1.6', '>= 1.6.1'
 gem 'mechanize'
-gem 'sidekiq'
+gem 'sidekiq', '~> 6'
 gem "browser"
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'responders', '~> 2.0'
 gem 'jwt'
+gem 'sqlite3', '1.3.13'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -51,12 +52,11 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-  gem 'sqlite3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
 
 group :production do
-  gem 'pg'
+  # gem 'pg'
   gem 'rails_12factor'
 end
