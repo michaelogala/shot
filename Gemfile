@@ -22,6 +22,7 @@ gem 'active_model_serializers', '~> 0.10.2'
 gem 'responders', '~> 2.0'
 gem 'jwt'
 gem 'sqlite3', '1.3.13'
+gem 'rails-controller-testing'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -33,7 +34,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails', '~> 3.5'
-  gem 'factory_girl_rails', '~> 4.7'
+  gem 'factory_bot_rails'
   gem 'capybara', '~> 2.9', '>= 2.9.1'
   gem 'shoulda-matchers', '~> 3.1', '>= 3.1.1'
   gem 'faker', '~> 1.6', '>= 1.6.6'

@@ -23,7 +23,7 @@ RSpec.describe LinksController, type: :controller do
     let!(:initial_link_count) { Link.count }
 
     context 'with valid parameters' do
-      before { post :create, link: attributes_for(:link) }
+      before { post :create, params: { link: attributes_for(:link) } }
 
       it 'creates a link and redirect to dashboard' do
         expect(Link.count).to eq initial_link_count + 1
@@ -37,7 +37,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     context 'with invalid parameters' do
-      before { post :create, link: attributes_for(:link, given_url: nil) }
+      before { post :create, params: { link: attributes_for(:link, given_url: nil) } }
 
       it 'fails to create a link and redirects to dashboard' do
         expect(Link.count).to eq initial_link_count
@@ -58,7 +58,7 @@ RSpec.describe LinksController, type: :controller do
       before do
         user.links << link
         session[:id] = user.id
-        get :show, link_id: link.id
+        get :show, params: { link_id: link.id }
       end
 
       it 'displays the dashboard' do
@@ -87,7 +87,7 @@ RSpec.describe LinksController, type: :controller do
       before do
         request.env['HTTP_REFERER'] = dashboard_path
         session[:id] = user.id
-        patch :update, id: link.id, link: { slug: 'some' }
+        patch :update, params: { id: link.id, link: { slug: 'some' } }
       end
 
       it 'updates link and goes back to dashboard' do
@@ -112,7 +112,7 @@ RSpec.describe LinksController, type: :controller do
     describe 'disabling a link' do
 
       context 'when user is signed in' do
-        before { patch :toggle_activate, id: link, active: false }
+        before { patch :toggle_activate, params: { id: link, active: false } }
 
         it 'sets the link status to inactive and goes to dashboard' do
           expect(link.reload.active).to eq false
@@ -129,7 +129,7 @@ RSpec.describe LinksController, type: :controller do
       before { link.active = false }
 
       context 'when user is signed in' do
-        before { patch :toggle_activate, id: link.id, active: true }
+        before { patch :toggle_activate, params: { id: link.id, active: true } }
 
         it 'sets the link status to active and goes to dashboard' do
           expect(link.reload.active).to eq true
@@ -148,7 +148,7 @@ RSpec.describe LinksController, type: :controller do
     let(:user) { create(:user) }
     before do
       session[:id] = user.id
-      delete :destroy, id: link.id
+      delete :destroy, params: { id: link.id }
     end
 
     it 'removes the link from db and goes to dashboard with a flash notice' do
@@ -172,7 +172,7 @@ RSpec.describe LinksController, type: :controller do
     let(:link) { create(:link) }
 
     context 'with a valid slug' do
-      before { get :redirect, slug: link.slug }
+      before { get :redirect, params: { slug: link.slug } }
 
       it 'redirects to the original url' do
         expect(response).to redirect_to link.given_url
@@ -188,7 +188,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     context 'with an invalid slug' do
-      before { get :redirect, slug: 'xxx' }
+      before { get :redirect, params: { slug: 'xxx' } }
       it 'renders a page showing that the link doesn\'t exist' do
         expect(response).to render_template 'deleted'
       end
@@ -197,7 +197,7 @@ RSpec.describe LinksController, type: :controller do
     context 'when link is not active' do
       before do
         link.update_attributes(active: false)
-        get :redirect, slug: link.slug
+        get :redirect, params: { slug: link.slug }
       end
 
       it 'renders a page showing that link is inactive' do

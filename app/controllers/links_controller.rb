@@ -17,7 +17,7 @@ class LinksController < ApplicationController
       set_flash_and_redirect
     else
       flash[:error] = new_link_error
-      redirect_to :back
+      redirect_back fallback_location: root_path
     end
   end
 
@@ -48,14 +48,14 @@ class LinksController < ApplicationController
                      else
                        @link.errors.full_messages.to_sentence
                      end
-    redirect_to :back
+    redirect_back fallback_location: root_path
   end
 
   def toggle_activate
     flash[:notice] = link_deactivated
     flash[:notice] = link_activated if params[:active] == 'true'
     @link.update_attributes(active: params[:active])
-    redirect_to :back
+    redirect_back fallback_location: root_path
   end
 
   def generate_key
@@ -83,7 +83,7 @@ class LinksController < ApplicationController
     flash[:link] = @link.display_slug
     flash[:slug] = @link.slug
     flash[:notice] = new_link_success
-    redirect_to :back
+    redirect_back fallback_location: root_path
   end
 
   def visit_params

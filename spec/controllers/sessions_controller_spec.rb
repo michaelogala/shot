@@ -14,7 +14,7 @@ RSpec.describe SessionsController, type: :controller do
 
     context 'with valid parameters' do
       before do
-        post :create, session: { email: user.email, password: user.password }
+        post :create, params: { session: { email: user.email, password: user.password } }
       end
 
       it 'sets a valid session' do
@@ -31,7 +31,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     context 'with invalid parameters' do
-      before { post :create, session: { email: nil, password: nil } }
+      before { post :create, params: { session: { email: nil, password: nil } } }
 
       it 'does not have a valid session' do
         expect(session[:id]).to be_nil

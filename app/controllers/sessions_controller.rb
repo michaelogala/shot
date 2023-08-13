@@ -1,13 +1,14 @@
 class SessionsController < ApplicationController
+  before_action :set_user, only: [:create]
+
   def new
     @user = User.new
   end
 
   def create
-    user = find_user_from_params
-    authenticated_user = user.authenticate(params[:session][:password]) if user
+    authenticated_user = @user.authenticate(session_params[:password]) if @user
     if authenticated_user
-      session[:id] = user.id
+      session[:id] = @user.id
       redirect_to dashboard_path, notice: logged_in
     else
       flash[:notice] = log_in_error
@@ -23,12 +24,10 @@ class SessionsController < ApplicationController
   private
 
   def session_params
-    params.require(:session).permit(:username, :password)
+    params.require(:session).permit(:email, :password)
   end
 
-  def find_user_from_params
-    return false unless params[:session][:email].present? &&
-                        params[:session][:password].present?
-    User.find_by(email: params[:session][:email])
+  def set_user
+    @user ||= User.find_by(email: session_params[:email])
   end
 end

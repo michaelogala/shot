@@ -19,7 +19,7 @@ RSpec.describe UsersController, type: :controller do
     let!(:initial_db_count) { User.count }
 
     context 'with valid params' do
-      before { post :create, user: attributes_for(:user) }
+      before { post :create, params: { user: attributes_for(:user) } }
 
       it 'persists the new user to database' do
         expect(User.count).to eq initial_db_count + 1
@@ -39,7 +39,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     context 'with invalid params' do
-      before { post :create, user: attributes_for(:user, password: nil) }
+      before { post :create, params: { user: attributes_for(:user, password: nil) } }
 
       it 'does not persist to the database' do
         expect(User.count).to eq initial_db_count

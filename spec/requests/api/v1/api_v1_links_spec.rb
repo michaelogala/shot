@@ -10,7 +10,7 @@ RSpec.describe "Api::V1::Links", type: :request do
 
   describe 'GET /api/v1/links/:id' do
     before do
-      get "/api/v1/links/#{link.id}", {}, { Authorization: user.auth_token }
+      get "/api/v1/links/#{link.id}", params: {}, headers: { Authorization: user.auth_token }
     end
 
     it 'returns json response containing link properties' do
@@ -22,7 +22,7 @@ RSpec.describe "Api::V1::Links", type: :request do
 
   describe "GET /api_v1_links" do
     before do
-      get '/api/v1/links', {}, { Authorization: user.auth_token }
+      get '/api/v1/links', params: {}, headers: { Authorization: user.auth_token }
     end
 
     it 'returns all links' do
@@ -37,8 +37,8 @@ RSpec.describe "Api::V1::Links", type: :request do
     context 'with valid params' do
       before do
         post '/api/v1/links',
-             attributes_for(:link),
-             { Authorization: user.auth_token }
+             params: attributes_for(:link),
+             headers: { Authorization: user.auth_token }
       end
 
       it 'saves and returns the link as json response' do
@@ -49,7 +49,7 @@ RSpec.describe "Api::V1::Links", type: :request do
     end
 
     context 'with invalid params' do
-      before { post '/api/v1/links', {}, { Authorization: user.auth_token } }
+      before { post '/api/v1/links', params: {}, headers: { Authorization: user.auth_token } }
 
       it 'returns a json message indicating failure' do
         expect(Link.count).to eq link_count
@@ -62,8 +62,8 @@ RSpec.describe "Api::V1::Links", type: :request do
     context 'with valid params' do
       before do
         patch "/api/v1/links/#{link.id}",
-              { slug: 'newslug' },
-              { Authorization: user.auth_token }
+              params: { slug: 'newslug' },
+              headers: { Authorization: user.auth_token }
       end
 
       it 'updates the link data' do
@@ -74,7 +74,7 @@ RSpec.describe "Api::V1::Links", type: :request do
 
   describe 'DELETE /api/v1/links/:id' do
     before do
-      delete "/api/v1/links/#{link.id}", {}, { Authorization: user.auth_token }
+      delete "/api/v1/links/#{link.id}", params: {}, headers: { Authorization: user.auth_token }
     end
 
     it 'removes the link from the database' do
